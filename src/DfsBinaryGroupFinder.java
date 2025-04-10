@@ -1,6 +1,6 @@
 import java.util.List;
 
-public interface GroupFinder {
+public class DfsBinaryGroupFinder implements BinaryGroupFinder {
    /**
     * Finds connected pixel groups of 1s in an integer array representing a binary image.
     * 
@@ -31,5 +31,9 @@ public interface GroupFinder {
     * @param image a rectangular 2D array containing only 1s and 0s
     * @return the found groups of connected pixels in descending order
     */
-   public List<Group> findConnectedGroups(int[][] image);
+    @Override
+    public List<Group> findConnectedGroups(int[][] image) {
+        return null;
+    }
+    
 }
