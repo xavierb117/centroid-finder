@@ -39,7 +39,7 @@ jobs:
 
           # Extract the number of tests run from the output.
           TEST_COUNT=$(grep -oP '\d+(?= tests found)' test-results.txt | head -n 1)
-          MIN_TESTS=5
+          MIN_TESTS=15
 
           if [ "$TEST_COUNT" -lt "$MIN_TESTS" ]; then
             echo "❌ Only $TEST_COUNT tests were run. At least $MIN_TESTS tests are required. Please write more unit tests"

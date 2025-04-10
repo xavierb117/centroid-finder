@@ -23,10 +23,14 @@ This class takes in a binary image array and finds the connected groups. It will
 
 Consider STARTING with the unit tests. Remember, you can use AI to help with the unit tests but NOT the implementation. Any AI commit must start with the message "AI Used"
 
+MAKE SURE YOU MAKE THOROUGH UNIT TESTS.
+
 ## Wave 3: Implement EuclideanColorDistance
 Implement EuclideanColorDistance. You may consider adding a helper method for converting a hex int into R, G, and B components.
 
 Again, consider starting with unit tests. You may consider using WolframAlpha to help you get correct expected values.
+
+MAKE SURE YOU MAKE THOROUGH UNIT TESTS.
 
 ## Wave 4: Implement DistanceImageBinarizer
 To do this you will need to research `java.awt.image.BufferedImage`. In particular, make sure to understand `getRGB` and `setRGB`. When creating a new image, you can use the below to start the instance:
@@ -37,8 +41,12 @@ new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 
 Note that a lot of this class will be calling methods in BinaryGroupFinder and ColorDistanceFinder!
 
+MAKE SURE YOU MAKE THOROUGH UNIT TESTS. Consider asking the AI to teach you about mocks and fakes in unit testing and how they may be helpful here.
+
 ## Wave 5: Implement BinarizingImageGroupFinder
 This implementation will be relatively short! It will mostly be calling methods in ImageBinarizer and BinaryGroupFinder.
+
+MAKE SURE YOU MAKE THOROUGH UNIT TESTS. Consider asking the AI to teach you about mocks and fakes in unit testing and how they may be helpful here.
 
 ## Wave 6: Validation
 To validate your code is working, make sure you're in the centroid-finder directory and run the below command:
