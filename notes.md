@@ -26,12 +26,19 @@
 - Pixels connected vertically and horizontally, goes from top-left to bottom-right in matrix input
 
 ### Group.java
+- A record that represents a group of contiguous pixels in an image, with size being the number of pixels and centroid as average of pixel coodinates.
 - Takes in resolution origin (0,0) of binarized image
 - Returns position of groups of collected values, and the centroid
 - The compareTo helps compare the groups for order
 
-### EuclideanColorDistance.java
+### Coordinate.java
+- A record, just like Group
+- Represents a location in an image or array using (x, y)
 
+### BinaryGroupFinder.java
+- An interface that DfsBinaryGroupFinder implements, giving the findConnectedGroups method
+
+### EuclideanColorDistance.java
 - Takes in two 24 bit integers
 - Converts to Hex Integers *(eg)*
 ```
@@ -44,4 +51,26 @@
 56,3C,95 - Converted to Hex (Expected parameter)
 ```
 - Compare distance between two values given
-- Returns an integer for how far the color distance is from the given values 
+- Returns an integer for how far the color distance is from the given values
+
+### ColorDistanceFinder.java
+- The interface that EuclideanColorDistance implements, giving the distance method
+
+### DistanceImageBinarizer.java
+- Makes use of java.awt.image.BufferedImage. Will need to research and convert RRGGBB values respectively
+- Helps determine whether each pixel should be black or white in the binarized image
+- Helps convert a given BufferedImage into a binary 2d array of 1's and 0's, using color distance and threshold
+- Helps convert binary 2d array into a buffered image
+- This class will take in a ColorDistanceFinder, int targetColor, and int threshold
+- Must use the other methods, ColorDistanceFinder and BinaryGroupFinder, to accomplish this...
+
+### ImageBinarizer.java
+- The interface that DistanceImageBinarizer implements, giving the methods toBinaryArray and toBufferedImage
+
+### BinarizingImageGroupFinder.java
+- Takes in an ImageBinarizer to convert an image to a 2d binary array
+- Takes in a BinaryGroupFinder to find connected white pixel groups in the binary array
+- Identified groups are returned in descending order
+
+### ImageGroupFinder.java
+- The interface that BinarizingImageGroupFinder implements, giving the findConnectedGroups method
