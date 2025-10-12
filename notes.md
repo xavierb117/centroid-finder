@@ -29,3 +29,19 @@
 - Takes in resolution origin (0,0) of binarized image
 - Returns position of groups of collected values, and the centroid
 - The compareTo helps compare the groups for order
+
+### EuclideanColorDistance.java
+
+- Takes in two 24 bit integers
+- Converts to Hex Integers *(eg)*
+```
+128,64,32,16,8,4,2,1 - 8 Bit Binary
+
+00000000 00000000 00000000 - 24 bits
+01010110 00111100 10010101 - Random Example
+
+86,60,149 - Converted to Base-10
+56,3C,95 - Converted to Hex (Expected parameter)
+```
+- Compare distance between two values given
+- Returns an integer for how far the color distance is from the given values 
