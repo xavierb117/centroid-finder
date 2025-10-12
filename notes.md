@@ -19,8 +19,13 @@
 - Finds the connected group of pixels vertically and horizontally while computing group size and coordinates
 - Creates the csv file containing one row per connected group with the format "size, x, y"
 
-### Group.java
+### DfsBinaryGroupFinder.java
+- Finds the connected pixel groups of 1's in the integer array representing the binarized image
+- Null array = NullPointerException, invalid array = IllegalArgumentException
+- Returns a list of sorted Groups, could use matrix search to traverse and set 1's and 0's.
+- Pixels connected vertically and horizontally, goes from top-left to bottom-right in matrix input
 
+### Group.java
 - Takes in resolution origin (0,0) of binarized image
 - Returns position of groups of collected values, and the centroid
 - The compareTo helps compare the groups for order
