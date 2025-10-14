@@ -1,4 +1,7 @@
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Stack;
 
 public class DfsBinaryGroupFinder implements BinaryGroupFinder {
    /**
@@ -34,12 +37,98 @@ public class DfsBinaryGroupFinder implements BinaryGroupFinder {
     @Override
     public List<Group> findConnectedGroups(int[][] image) {
         if(image == null) throw new NullPointerException();
-        int row = image.length;
-        int col = image[0].length;
-        if(row < 0 || col < 0 || row >= image.length || col >= image[0].length) throw new IllegalArgumentException();
-        
+        if (image.length == 0) throw new IllegalArgumentException();
 
-        return null;
+        for (int[] arr : image) {
+            if (arr == null) throw new NullPointerException();
+            if (arr.length > image[0].length || arr.length < image[0].length) throw new IllegalArgumentException();
+        }
+
+        List<Group> groups = new ArrayList<>();
+        boolean[][] visited = new boolean[image.length][image[0].length];
+
+        for (int i = 0; i < image.length; i++) {
+            for (int j = 0; j < image[i].length; j++) {
+                if (image[i][j] != 1 && image[i][j] != 0) throw new IllegalArgumentException();
+                if (image[i][j] == 1 && !visited[i][j]) {
+                    List<Coordinate> cords = new ArrayList<>();
+                    int[] start = {i, j};
+                    addGroup(image, visited, cords, groups, start);
+                }
+            }
+        }
+        Collections.sort(groups, Collections.reverseOrder());
+        return groups;
     }
     
+    public void addGroup(int[][] image, boolean[][] visited, List<Coordinate> cords, List<Group> groups, int[] start) {
+        if (visited[start[0]][start[1]]) return;
+
+        Stack<int[]> stack = new Stack<>();
+        stack.push(start);
+
+        while(!stack.isEmpty()) {
+            int[] newPlace = stack.pop();
+            if (!visited[newPlace[0]][newPlace[1]]) {
+                visited[newPlace[0]][newPlace[1]] = true; 
+                cords.add(new Coordinate(newPlace[0], newPlace[1]));
+
+                List<int[]> moves = possibleMoves(image, newPlace);
+
+                for (int[] move : moves) {
+                    if (!visited[move[0]][move[1]] && move != null) stack.push(move);
+                }
+            }
+        }
+
+        int columnCentroid = 0;
+        int rowCentroid = 0;
+
+        for (Coordinate cord : cords) {
+            columnCentroid = columnCentroid + cord.x();
+            rowCentroid = rowCentroid + cord.y();
+        }
+
+        columnCentroid = columnCentroid / cords.size();
+        rowCentroid = rowCentroid / cords.size();
+
+        groups.add(new Group(cords.size(), new Coordinate(rowCentroid, columnCentroid)));
+    }
+
+    public static List<int[]> possibleMoves(int[][] image, int[] current) {
+        List<int[]> moves = new ArrayList<>();
+
+        int curR = current[0];
+        int curC = current[1];
+
+        // Up
+        int newR = curR - 1;
+        int newC = curC;
+        if(newR >= 0 && image[newR][newC] == 1) {
+             moves.add(new int[]{newR, newC});
+        }
+
+        // Down
+        newR = curR + 1;
+        newC = curC;
+        if (newR < image.length && image[newR][newC] == 1) {
+            moves.add(new int[]{newR, newC});
+        }
+
+        // Left
+        newR = curR;
+        newC = curC - 1;
+        if (newC >= 0 && image[newR][newC] == 1) {
+            moves.add(new int[]{newR, newC});
+        }
+
+        // Right
+        newR = curR;
+        newC = curC + 1;
+        if (newC < image[newR].length && image[newR][newC] == 1) {
+            moves.add(new int[]{newR, newC});
+        }
+
+        return moves;
+    }
 }
