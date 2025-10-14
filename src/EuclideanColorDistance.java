@@ -31,9 +31,9 @@ public class EuclideanColorDistance implements ColorDistanceFinder {
         int blueB = colorB & 0x0000FF;
 
         //need to work on more
-        int redSolve = (redA - redB) * 2;
-        int greenSolve = (greenA - greenB) * 2;
-        int blueSolve = (blueA - blueB) * 2;
+        int redSolve = (redA - redB);
+        int greenSolve = (greenA - greenB);
+        int blueSolve = (blueA - blueB);
 
         //not entirely sure if it works lol
         return Math.sqrt(Math.pow(redSolve, 2) + Math.pow(greenSolve, 2) + Math.pow(blueSolve, 2));
