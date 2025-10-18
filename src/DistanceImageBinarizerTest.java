@@ -77,6 +77,19 @@ public class DistanceImageBinarizerTest {
         assertEquals(0, result[0][0]); // because 0 is NOT less than 0
     }
 
+    @Test
+    public void toBinaryArray_ShouldReturnWhite() {
+        DistanceImageBinarizer thresholdTest =
+                new DistanceImageBinarizer(distanceFinder, 0xFF0000, 1000000); // infinite threshold -> everything white
+        BufferedImage img = new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB);
+        img.setRGB(0, 0, 0xFF0000); // same color but threshold=1000000
+
+        int[][] result = thresholdTest.toBinaryArray(img);
+
+        assertEquals(1, result[0][0]); // because 1 million is greater than all color values
+    }
+
+
     // ============================================================
     // 🎨 toBufferedImage() TESTS
     // ============================================================
