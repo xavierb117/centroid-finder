@@ -40,6 +40,16 @@ public class DistanceImageBinarizerTest {
     }
 
     @Test
+    public void toBinaryArray_ShouldReturnBlackForFarColor_2() {
+        BufferedImage img = new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB);
+        img.setRGB(0, 0, 0x00FF00); // green → not so far from red
+
+        int[][] result = binarizer.toBinaryArray(img);
+
+        assertEquals(0, result[0][0]);
+    }
+
+    @Test
     public void toBinaryArray_ShouldHandleSmall2x2ImageCorrectly() {
         BufferedImage img = new BufferedImage(2, 2, BufferedImage.TYPE_INT_RGB);
         img.setRGB(0, 0, 0xFF0000); // red → white
