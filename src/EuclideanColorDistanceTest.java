@@ -82,7 +82,7 @@ public class EuclideanColorDistanceTest {
         // ΔG = 153 - 102 = 51
         // ΔB = 204 - 153 = 51
         // distance = sqrt(51² + 51² + 51²) = sqrt(3 * 2601) = sqrt(7803) ≈ 88.3345912
-        double expected = Math.sqrt(Math.pow(51, 2) + Math.pow(51, 2) + Math.pow(51, 2));
+        double expected = 88.335;
 
         EuclideanColorDistance colorUtils = new EuclideanColorDistance();
         double distance = colorUtils.distance(colorA, colorB);
