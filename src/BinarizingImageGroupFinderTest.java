@@ -1,99 +1,116 @@
-import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Unit tests for BinarizingImageGroupFinder.
+ * 
+ * These tests verify that the class correctly combines the ImageBinarizer and
+ * BinaryGroupFinder to find connected groups in a binarized image.
+ * 
+ * No mocks or fakes are used here yet — real instances are provided.
+ */
 public class BinarizingImageGroupFinderTest {
 
-    // --- simple fake versions of dependencies ---
-    private static class FakeBinarizer implements ImageBinarizer {
-        boolean called = false;
-        int[][] array = {{1, 0}, {0, 1}};
-        @Override
-        public int[][] toBinaryArray(BufferedImage image) {
-            called = true;
-            return array;
-        }
+    private BinarizingImageGroupFinder imageGroupFinder;
+
+    @BeforeEach
+    public void setUp() {
+        // Use real implementations (you can replace with mocks later)
+        ColorDistanceFinder distanceFinder = new EuclideanColorDistance();
+        ImageBinarizer binarizer = new DistanceImageBinarizer(distanceFinder, 0xFF0000, 100);
+        BinaryGroupFinder groupFinder = new DfsBinaryGroupFinder();
+
+        imageGroupFinder = new BinarizingImageGroupFinder(binarizer, groupFinder);
     }
 
-    private static class FakeGroupFinder implements BinaryGroupFinder {
-        boolean called = false;
-        List<Group> list = new ArrayList<>();
-        @Override
-        public List<Group> findConnectedGroups(int[][] binaryImage) {
-            called = true;
-            list.add(new Group(2, 1, 1.0, 1.0));   // dummy group
-            return list;
-        }
-    }
+    // ============================================================
+    // 🧩 Basic Functionality Tests
+    // ============================================================
 
-    private static BufferedImage makeImage() {
-        return new BufferedImage(2, 2, BufferedImage.TYPE_INT_RGB);
-    }
-
-    // ✅ Test 1: calls both collaborators and returns result
     @Test
-    void testCallsBothHelpers() {
-        FakeBinarizer bin = new FakeBinarizer();
-        FakeGroupFinder gf = new FakeGroupFinder();
-        BinarizingImageGroupFinder finder = new BinarizingImageGroupFinder(bin, gf);
+    public void findConnectedGroups_ShouldReturnSingleGroup_ForAllWhiteImage() {
+        BufferedImage img = new BufferedImage(2, 2, BufferedImage.TYPE_INT_RGB);
+        img.setRGB(0, 0, 0xFF0000); // same color as target (red)
+        img.setRGB(1, 0, 0xFF0000);
+        img.setRGB(0, 1, 0xFF0000);
+        img.setRGB(1, 1, 0xFF0000);
 
-        List<Group> result = finder.findConnectedGroups(makeImage());
+        List<Group> groups = imageGroupFinder.findConnectedGroups(img);
 
-        assertTrue(bin.called, "binarizer should be called");
-        assertTrue(gf.called, "groupFinder should be called");
-        assertNotNull(result);
-        assertEquals(1, result.size());
+        assertEquals(1, groups.size());
+        assertEquals(4, groups.get(0).size());
+        assertEquals(new Coordinate(0, 0).getClass(), groups.get(0).centroid().getClass());
     }
 
-    // ✅ Test 2: passes binary array from binarizer to groupFinder
     @Test
-    void testPassesBinaryArray() {
-        FakeBinarizer bin = new FakeBinarizer();
-        FakeGroupFinder gf = new FakeGroupFinder();
-        BinarizingImageGroupFinder finder = new BinarizingImageGroupFinder(bin, gf);
+    public void findConnectedGroups_ShouldReturnEmptyList_ForAllBlackImage() {
+        BufferedImage img = new BufferedImage(2, 2, BufferedImage.TYPE_INT_RGB);
+        img.setRGB(0, 0, 0x0000FF);
+        img.setRGB(1, 0, 0x0000FF);
+        img.setRGB(0, 1, 0x0000FF);
+        img.setRGB(1, 1, 0x0000FF);
 
-        finder.findConnectedGroups(makeImage());
+        List<Group> groups = imageGroupFinder.findConnectedGroups(img);
 
-        assertTrue(gf.called, "groupFinder must be called");
-        assertNotNull(bin.array, "binary array should not be null");
+        assertTrue(groups.isEmpty());
     }
 
-    // ✅ Test 3: propagates exception from binarizer
     @Test
-    void testThrowsIfBinarizerFails() {
-        ImageBinarizer bad = img -> { throw new RuntimeException("binarizer failed"); };
-        BinaryGroupFinder ok = arr -> new ArrayList<>();
-        BinarizingImageGroupFinder finder = new BinarizingImageGroupFinder(bad, ok);
+    public void findConnectedGroups_ShouldDetectMultipleSeparateGroups() {
+        BufferedImage img = new BufferedImage(3, 3, BufferedImage.TYPE_INT_RGB);
 
-        assertThrows(RuntimeException.class,
-                () -> finder.findConnectedGroups(makeImage()),
-                "should throw if binarizer fails");
+        // Two red pixels separated by blue (not connected)
+        img.setRGB(0, 0, 0xFF0000);
+        img.setRGB(2, 2, 0xFF0000);
+        img.setRGB(1, 1, 0x0000FF);
+
+        List<Group> groups = imageGroupFinder.findConnectedGroups(img);
+
+        assertEquals(2, groups.size());
+        assertTrue(groups.get(0).size() == 1 && groups.get(1).size() == 1);
     }
 
-    // ✅ Test 4: propagates exception from groupFinder
-    @Test
-    void testThrowsIfGroupFinderFails() {
-        ImageBinarizer ok = img -> new int[][]{{1}};
-        BinaryGroupFinder bad = arr -> { throw new RuntimeException("groupFinder failed"); };
-        BinarizingImageGroupFinder finder = new BinarizingImageGroupFinder(ok, bad);
+    // ============================================================
+    // ⚙️ Integration / Consistency Tests
+    // ============================================================
 
-        assertThrows(RuntimeException.class,
-                () -> finder.findConnectedGroups(makeImage()),
-                "should throw if groupFinder fails");
+    @Test
+    public void findConnectedGroups_ShouldBeConsistent_WithManualBinaryConversion() {
+        // Same idea: red = white pixel, blue = black pixel
+        BufferedImage img = new BufferedImage(2, 1, BufferedImage.TYPE_INT_RGB);
+        img.setRGB(0, 0, 0xFF0000);
+        img.setRGB(1, 0, 0x0000FF);
+
+        List<Group> groups = imageGroupFinder.findConnectedGroups(img);
+
+        // The binarized version would be [1, 0] -> one single white pixel group
+        assertEquals(1, groups.size());
+        assertEquals(1, groups.get(0).size());
+        assertEquals(0, groups.get(0).centroid().x());
+        assertEquals(0, groups.get(0).centroid().y());
     }
 
-    // ✅ Test 5: works even with empty image
+    // ============================================================
+    // 🚫 Error Handling / Edge Cases
+    // ============================================================
+
     @Test
-    void testHandlesEmptyImage() {
-        FakeBinarizer bin = new FakeBinarizer();
-        FakeGroupFinder gf = new FakeGroupFinder();
-        BinarizingImageGroupFinder finder = new BinarizingImageGroupFinder(bin, gf);
+    public void findConnectedGroups_ShouldThrowException_ForNullImage() {
+        assertThrows(NullPointerException.class, () -> imageGroupFinder.findConnectedGroups(null));
+    }
 
-        BufferedImage empty = new BufferedImage(0, 0, BufferedImage.TYPE_INT_RGB);
-        List<Group> result = finder.findConnectedGroups(empty);
+    @Test
+    public void findConnectedGroups_ShouldHandleEmptyImage() {
+        // BufferedImage can't have width=0, but we can simulate minimal (1x1) black pixel
+        BufferedImage img = new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB);
+        img.setRGB(0, 0, 0x000000);
 
-        assertNotNull(result, "should not return null");
+        List<Group> groups = imageGroupFinder.findConnectedGroups(img);
+
+        assertTrue(groups.isEmpty());
     }
 }
