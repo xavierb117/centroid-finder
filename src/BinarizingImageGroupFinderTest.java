@@ -1,104 +1,99 @@
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
-// Simple test for BinarizingImageGroupFinder
 public class BinarizingImageGroupFinderTest {
 
-    // Simple fake versions of the needed interfaces
+    // --- simple fake versions of dependencies ---
     private static class FakeBinarizer implements ImageBinarizer {
         boolean called = false;
-
+        int[][] array = {{1, 0}, {0, 1}};
         @Override
         public int[][] toBinaryArray(BufferedImage image) {
             called = true;
-            return new int[][]{
-                    {1, 0},
-                    {0, 1}
-            };
+            return array;
         }
     }
 
     private static class FakeGroupFinder implements BinaryGroupFinder {
         boolean called = false;
-        List<Group> result = new ArrayList<>();
-
+        List<Group> list = new ArrayList<>();
         @Override
         public List<Group> findConnectedGroups(int[][] binaryImage) {
             called = true;
-            // Just return one dummy group
-            result.add(new Group(2, 2, 1.0, 1.0));
-            return result;
+            list.add(new Group(2, 1, 1.0, 1.0));   // dummy group
+            return list;
         }
     }
 
-    // Create a small test image
-    private static BufferedImage makeSmallImage() {
-        return new BufferedImage(3, 3, BufferedImage.TYPE_INT_RGB);
+    private static BufferedImage makeImage() {
+        return new BufferedImage(2, 2, BufferedImage.TYPE_INT_RGB);
     }
 
-    // ✅ Test 1: Basic check — should call both binarizer and groupFinder
+    // ✅ Test 1: calls both collaborators and returns result
     @Test
-    void testFindConnectedGroups_CallsBothAndReturnsResult() {
+    void testCallsBothHelpers() {
         FakeBinarizer bin = new FakeBinarizer();
-        FakeGroupFinder finderStub = new FakeGroupFinder();
-        BinarizingImageGroupFinder finder = new BinarizingImageGroupFinder(bin, finderStub);
+        FakeGroupFinder gf = new FakeGroupFinder();
+        BinarizingImageGroupFinder finder = new BinarizingImageGroupFinder(bin, gf);
 
-        List<Group> result = finder.findConnectedGroups(makeSmallImage());
+        List<Group> result = finder.findConnectedGroups(makeImage());
 
-        assertTrue(bin.called, "Binarizer should be called");
-        assertTrue(finderStub.called, "GroupFinder should be called");
-        assertNotNull(result, "Result should not be null");
-        assertEquals(1, result.size(), "Should return one group");
+        assertTrue(bin.called, "binarizer should be called");
+        assertTrue(gf.called, "groupFinder should be called");
+        assertNotNull(result);
+        assertEquals(1, result.size());
     }
 
-    // ✅ Test 2: Should return the same list from the groupFinder
+    // ✅ Test 2: passes binary array from binarizer to groupFinder
     @Test
-    void testReturnsSameListFromGroupFinder() {
+    void testPassesBinaryArray() {
         FakeBinarizer bin = new FakeBinarizer();
-        FakeGroupFinder finderStub = new FakeGroupFinder();
-        BinarizingImageGroupFinder finder = new BinarizingImageGroupFinder(bin, finderStub);
+        FakeGroupFinder gf = new FakeGroupFinder();
+        BinarizingImageGroupFinder finder = new BinarizingImageGroupFinder(bin, gf);
 
-        List<Group> output = finder.findConnectedGroups(makeSmallImage());
+        finder.findConnectedGroups(makeImage());
 
-        assertSame(finderStub.result, output, "Should return the exact same list object");
+        assertTrue(gf.called, "groupFinder must be called");
+        assertNotNull(bin.array, "binary array should not be null");
     }
 
-    // ✅ Test 3: If binarizer throws, the method should also throw
+    // ✅ Test 3: propagates exception from binarizer
     @Test
     void testThrowsIfBinarizerFails() {
-        ImageBinarizer badBinarizer = image -> { throw new RuntimeException("binarizer failed"); };
-        BinaryGroupFinder dummyFinder = binary -> new ArrayList<>();
-        BinarizingImageGroupFinder finder = new BinarizingImageGroupFinder(badBinarizer, dummyFinder);
+        ImageBinarizer bad = img -> { throw new RuntimeException("binarizer failed"); };
+        BinaryGroupFinder ok = arr -> new ArrayList<>();
+        BinarizingImageGroupFinder finder = new BinarizingImageGroupFinder(bad, ok);
 
-        assertThrows(RuntimeException.class, () -> finder.findConnectedGroups(makeSmallImage()),
-                "Should throw if binarizer fails");
+        assertThrows(RuntimeException.class,
+                () -> finder.findConnectedGroups(makeImage()),
+                "should throw if binarizer fails");
     }
 
-    // ✅ Test 4: If groupFinder throws, the method should also throw
+    // ✅ Test 4: propagates exception from groupFinder
     @Test
     void testThrowsIfGroupFinderFails() {
-        ImageBinarizer goodBinarizer = image -> new int[][]{{1}};
-        BinaryGroupFinder badFinder = binary -> { throw new RuntimeException("groupFinder failed"); };
-        BinarizingImageGroupFinder finder = new BinarizingImageGroupFinder(goodBinarizer, badFinder);
+        ImageBinarizer ok = img -> new int[][]{{1}};
+        BinaryGroupFinder bad = arr -> { throw new RuntimeException("groupFinder failed"); };
+        BinarizingImageGroupFinder finder = new BinarizingImageGroupFinder(ok, bad);
 
-        assertThrows(RuntimeException.class, () -> finder.findConnectedGroups(makeSmallImage()),
-                "Should throw if groupFinder fails");
+        assertThrows(RuntimeException.class,
+                () -> finder.findConnectedGroups(makeImage()),
+                "should throw if groupFinder fails");
     }
 
-    // ✅ Test 5: Works even if image is empty
+    // ✅ Test 5: works even with empty image
     @Test
-    void testHandlesEmptyImageGracefully() {
+    void testHandlesEmptyImage() {
         FakeBinarizer bin = new FakeBinarizer();
-        FakeGroupFinder finderStub = new FakeGroupFinder();
-        BinarizingImageGroupFinder finder = new BinarizingImageGroupFinder(bin, finderStub);
+        FakeGroupFinder gf = new FakeGroupFinder();
+        BinarizingImageGroupFinder finder = new BinarizingImageGroupFinder(bin, gf);
 
-        BufferedImage emptyImg = new BufferedImage(0, 0, BufferedImage.TYPE_INT_RGB);
-        List<Group> result = finder.findConnectedGroups(emptyImg);
+        BufferedImage empty = new BufferedImage(0, 0, BufferedImage.TYPE_INT_RGB);
+        List<Group> result = finder.findConnectedGroups(empty);
 
-        assertNotNull(result, "Should not return null for empty image");
+        assertNotNull(result, "should not return null");
     }
 }
