@@ -20,6 +20,7 @@ public class BinarizingImageGroupFinder implements ImageGroupFinder {
      * @param groupFinder the BinaryGroupFinder used to find connected white pixel groups in the binary array
      */
     public BinarizingImageGroupFinder(ImageBinarizer binarizer, BinaryGroupFinder groupFinder) {
+
         this.binarizer = binarizer;
         this.groupFinder = groupFinder;
     }
@@ -37,6 +38,11 @@ public class BinarizingImageGroupFinder implements ImageGroupFinder {
      */
     @Override
     public List<Group> findConnectedGroups(BufferedImage image) {
-        return null;
+
+        int [][] toBinaryArray =  binarizer.toBinaryArray (image);
+    
+        List<Group> groups = groupFinder.findConnectedGroups(toBinaryArray);
+ 
+            return groups;
     }
 }
