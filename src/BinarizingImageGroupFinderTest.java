@@ -1,54 +1,116 @@
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
+import java.awt.image.BufferedImage;
 import java.util.List;
 
+/**
+ * Unit tests for BinarizingImageGroupFinder.
+ * 
+ * These tests verify that the class correctly combines the ImageBinarizer and
+ * BinaryGroupFinder to find connected groups in a binarized image.
+ * 
+ * No mocks or fakes are used here yet — real instances are provided.
+ */
 public class BinarizingImageGroupFinderTest {
 
-    @Test
-    public void testFindConnectedGroupsNotNull() {
-        ImageGroupFinder finder = new ImageGroupFinder();
-        BufferedImage img = new BufferedImage(2, 2, BufferedImage.TYPE_INT_RGB);
+    private BinarizingImageGroupFinder imageGroupFinder;
 
-        List<Group> result = finder.findConnectedGroups(img);
-        assertNotNull(result, "Result should not be null");
+    @BeforeEach
+    public void setUp() {
+        // Use real implementations (you can replace with mocks later)
+        ColorDistanceFinder distanceFinder = new EuclideanColorDistance();
+        ImageBinarizer binarizer = new DistanceImageBinarizer(distanceFinder, 0xFF0000, 100);
+        BinaryGroupFinder groupFinder = new DfsBinaryGroupFinder();
+
+        imageGroupFinder = new BinarizingImageGroupFinder(binarizer, groupFinder);
+    }
+
+    // ============================================================
+    // 🧩 Basic Functionality Tests
+    // ============================================================
+
+    @Test
+    public void findConnectedGroups_ShouldReturnSingleGroup_ForAllWhiteImage() {
+        BufferedImage img = new BufferedImage(2, 2, BufferedImage.TYPE_INT_RGB);
+        img.setRGB(0, 0, 0xFF0000); // same color as target (red)
+        img.setRGB(1, 0, 0xFF0000);
+        img.setRGB(0, 1, 0xFF0000);
+        img.setRGB(1, 1, 0xFF0000);
+
+        List<Group> groups = imageGroupFinder.findConnectedGroups(img);
+
+        assertEquals(1, groups.size());
+        assertEquals(4, groups.get(0).size());
+        assertEquals(new Coordinate(0, 0).getClass(), groups.get(0).centroid().getClass());
     }
 
     @Test
-    public void testFindConnectedGroupsSortedDescending() {
-        ImageGroupFinder finder = new StubImageGroupFinder();
+    public void findConnectedGroups_ShouldReturnEmptyList_ForAllBlackImage() {
+        BufferedImage img = new BufferedImage(2, 2, BufferedImage.TYPE_INT_RGB);
+        img.setRGB(0, 0, 0x0000FF);
+        img.setRGB(1, 0, 0x0000FF);
+        img.setRGB(0, 1, 0x0000FF);
+        img.setRGB(1, 1, 0x0000FF);
+
+        List<Group> groups = imageGroupFinder.findConnectedGroups(img);
+
+        assertTrue(groups.isEmpty());
+    }
+
+    @Test
+    public void findConnectedGroups_ShouldDetectMultipleSeparateGroups() {
         BufferedImage img = new BufferedImage(3, 3, BufferedImage.TYPE_INT_RGB);
 
-        List<Group> result = finder.findConnectedGroups(img);
+        // Two red pixels separated by blue (not connected)
+        img.setRGB(0, 0, 0xFF0000);
+        img.setRGB(2, 2, 0xFF0000);
+        img.setRGB(1, 1, 0x0000FF);
 
-        assertEquals(3, result.size(), "Should return 3 groups");
-        assertTrue(result.get(0).size() >= result.get(1).size(), "Groups should be sorted in descending order");
-        assertTrue(result.get(1).size() >= result.get(2).size(), "Groups should be sorted in descending order");
+        List<Group> groups = imageGroupFinder.findConnectedGroups(img);
+
+        assertEquals(2, groups.size());
+        assertTrue(groups.get(0).size() == 1 && groups.get(1).size() == 1);
+    }
+
+    // ============================================================
+    // ⚙️ Integration / Consistency Tests
+    // ============================================================
+
+    @Test
+    public void findConnectedGroups_ShouldBeConsistent_WithManualBinaryConversion() {
+        // Same idea: red = white pixel, blue = black pixel
+        BufferedImage img = new BufferedImage(2, 1, BufferedImage.TYPE_INT_RGB);
+        img.setRGB(0, 0, 0xFF0000);
+        img.setRGB(1, 0, 0x0000FF);
+
+        List<Group> groups = imageGroupFinder.findConnectedGroups(img);
+
+        // The binarized version would be [1, 0] -> one single white pixel group
+        assertEquals(1, groups.size());
+        assertEquals(1, groups.get(0).size());
+        assertEquals(0, groups.get(0).centroid().x());
+        assertEquals(0, groups.get(0).centroid().y());
+    }
+
+    // ============================================================
+    // 🚫 Error Handling / Edge Cases
+    // ============================================================
+
+    @Test
+    public void findConnectedGroups_ShouldThrowException_ForNullImage() {
+        assertThrows(NullPointerException.class, () -> imageGroupFinder.findConnectedGroups(null));
     }
 
     @Test
-    public void testFindConnectedGroupsReturnsExpectedSizes() {
-        ImageGroupFinder finder = new StubImageGroupFinder();
-        BufferedImage img = new BufferedImage(4, 4, BufferedImage.TYPE_INT_RGB);
+    public void findConnectedGroups_ShouldHandleEmptyImage() {
+        // BufferedImage can't have width=0, but we can simulate minimal (1x1) black pixel
+        BufferedImage img = new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB);
+        img.setRGB(0, 0, 0x000000);
 
-        List<Group> result = finder.findConnectedGroups(img);
-        List<Integer> expectedSizes = Arrays.asList(5, 3, 1);
+        List<Group> groups = imageGroupFinder.findConnectedGroups(img);
 
-        assertEquals(expectedSizes.get(0), result.get(0).size());
-        assertEquals(expectedSizes.get(1), result.get(1).size());
-        assertEquals(expectedSizes.get(2), result.get(2).size());
+        assertTrue(groups.isEmpty());
     }
-
-    @Test
-    public void testFindConnectedGroupsThrowsExceptionForNullImage() {
-        ImageGroupFinder finder = new StubImageGroupFinder();
-        assertThrows(NullPointerException.class, () -> finder.findConnectedGroups(null),
-                "Should throw NullPointerException for null image");
-    }
-
-    
 }
