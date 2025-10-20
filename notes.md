@@ -74,3 +74,5 @@
 
 ### ImageGroupFinder.java
 - The interface that BinarizingImageGroupFinder implements, giving the findConnectedGroups method
+
+- "I, elena5100, understand that AI is ONLY to be used for tests, and that every commit that I use AI for must start with 'AI Used'"
