@@ -53,11 +53,11 @@ public class DistanceImageBinarizer implements ImageBinarizer {
         {
             for(int j = 0; j < width; j++)
             {
-                int argb = image.getRGB(i, j);
+                int argb = image.getRGB(j, i);
                 int rgb = argb & 0xFFFFFF;
                 double distance = distanceFinder.distance(targetColor, rgb);
-                if(distance < threshold) doubleArr[j][i] = 1;
-                else doubleArr[j][i] = 0;
+                if(distance < threshold) doubleArr[i][j] = 1;
+                else doubleArr[i][j] = 0;
             }
         }
 
