@@ -5,6 +5,108 @@ import java.awt.image.BufferedImage;
 import java.util.List;
 
 public class BinarizingImageGroupFinderTest {
+
+    // Tests below here are FAKE TESTS
+
+    static class FakeBinarizer implements ImageBinarizer {
+        @Override
+        public int[][] toBinaryArray(BufferedImage image) {
+            // Always return a small 2x2 binary pattern
+            return new int[][] {
+                    {1, 0},
+                    {0, 1}
+            };
+        }
+
+        @Override
+        public BufferedImage toBufferedImage(int[][] image) {
+            throw new UnsupportedOperationException();
+        }
+    }
+
+    @Test
+    public void findConnectedGroups_UsesBinaryArrayFromBinarizer() {
+        // Arrange
+        ImageBinarizer fakeBinarizer = new FakeBinarizer();
+        BinaryGroupFinder realGroupFinder = new DfsBinaryGroupFinder(); // or any valid implementation
+        BinarizingImageGroupFinder finder = new BinarizingImageGroupFinder(fakeBinarizer, realGroupFinder);
+
+        BufferedImage dummyImage = new BufferedImage(2, 2, BufferedImage.TYPE_INT_RGB);
+
+        // Act
+        List<Group> groups = finder.findConnectedGroups(dummyImage);
+
+        // Assert
+        assertNotNull(groups);
+        assertFalse(groups.isEmpty());
+        assertEquals(2, groups.size());
+        assertEquals(1, groups.get(0).size());
+        assertEquals(1, groups.get(1).size());
+    }
+
+    // Tests below here are MOCK TESTS
+
+    static class MockGroupFinder implements BinaryGroupFinder {
+        private boolean called = false;
+        private int[][] receivedImage;
+        private List<Group> resultToReturn;
+
+        public MockGroupFinder(List<Group> resultToReturn) {
+            this.resultToReturn = resultToReturn;
+        }
+
+        @Override
+        public List<Group> findConnectedGroups(int[][] image) {
+            called = true;
+            receivedImage = image;
+            return resultToReturn;
+        }
+
+        public boolean wasCalled() {
+            return called;
+        }
+
+        public int[][] getReceivedImage() {
+            return receivedImage;
+        }
+    }
+
+    @Test
+    public void findConnectedGroups_DelegatesToBinaryGroupFinder() {
+        // Arrange
+        ImageBinarizer stubBinarizer = new ImageBinarizer() {
+            @Override
+            public int[][] toBinaryArray(BufferedImage image) {
+                return new int[][] { {1, 0}, {0, 1} };
+            }
+
+            @Override
+            public BufferedImage toBufferedImage(int[][] image) {
+                throw new UnsupportedOperationException();
+            }
+        };
+
+        List<Group> expectedGroups = List.of(
+                new Group(1, new Coordinate(0, 0)),
+                new Group(1, new Coordinate(1, 1))
+        );
+
+        MockGroupFinder mockFinder = new MockGroupFinder(expectedGroups);
+        BinarizingImageGroupFinder imageGroupFinder = new BinarizingImageGroupFinder(stubBinarizer, mockFinder);
+
+        BufferedImage dummyImage = new BufferedImage(2, 2, BufferedImage.TYPE_INT_RGB);
+
+        // Act
+        List<Group> result = imageGroupFinder.findConnectedGroups(dummyImage);
+
+        // Assert
+        assertTrue(mockFinder.wasCalled());
+        assertArrayEquals(new int[][]{{1, 0}, {0, 1}}, mockFinder.getReceivedImage());
+        assertEquals(expectedGroups, result);
+    }
+
+    // Tests below here are REAL IMPLENTATION TESTS
+
     @Test
     public void findConnectedGroups_ShouldReturnSingleGroup_ForAllWhiteImage() {
         ColorDistanceFinder distanceFinder = new EuclideanColorDistance();
