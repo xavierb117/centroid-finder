@@ -1,3 +1,4 @@
+package io.github.xavierb117.centroidfinder;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;

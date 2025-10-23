@@ -1,3 +1,4 @@
+package io.github.xavierb117.centroidfinder;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 

@@ -1,3 +1,4 @@
+package io.github.xavierb117.centroidfinder;
 public class EuclideanColorDistance implements ColorDistanceFinder {
     /**
      * Returns the euclidean color distance between two hex RGB colors.

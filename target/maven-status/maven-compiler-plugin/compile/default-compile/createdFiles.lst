@@ -1,0 +1,11 @@
+io\github\xavierb117\centroidfinder\EuclideanColorDistance.class
+io\github\xavierb117\centroidfinder\Coordinate.class
+io\github\xavierb117\centroidfinder\BinarizingImageGroupFinder.class
+io\github\xavierb117\centroidfinder\BinaryGroupFinder.class
+io\github\xavierb117\centroidfinder\DfsBinaryGroupFinder.class
+io\github\xavierb117\centroidfinder\DistanceImageBinarizer.class
+io\github\xavierb117\centroidfinder\ImageBinarizer.class
+io\github\xavierb117\centroidfinder\ColorDistanceFinder.class
+io\github\xavierb117\centroidfinder\ImageGroupFinder.class
+io\github\xavierb117\centroidfinder\ImageSummaryApp.class
+io\github\xavierb117\centroidfinder\Group.class
