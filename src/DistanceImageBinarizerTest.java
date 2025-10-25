@@ -15,6 +15,62 @@ public class DistanceImageBinarizerTest {
         binarizer = new DistanceImageBinarizer(distanceFinder, 0xFF0000, 100); // Target: red
     }
 
+    // Tests below here are FAKE TESTS
+
+    @Test
+    public void toBinaryArray_ShouldUseFakeDistanceFinderCorrectly() {
+        class FakeColorDistanceFinder implements ColorDistanceFinder {
+            @Override
+            public double distance(int colorA, int colorB) {
+                // Make white (1) if colorB is red, black (0) otherwise
+                return (colorB == 0xFF0000) ? 0 : 200;
+            }
+        }
+
+        DistanceImageBinarizer binarizer = new DistanceImageBinarizer(new FakeColorDistanceFinder(), 0xFF0000, 100);
+
+        BufferedImage img = new BufferedImage(2, 1, BufferedImage.TYPE_INT_RGB);
+        img.setRGB(0, 0, 0xFF0000); // red (close → white)
+        img.setRGB(1, 0, 0x0000FF); // blue (far → black)
+
+        int[][] result = binarizer.toBinaryArray(img);
+
+        assertEquals(1, result[0][0]);
+        assertEquals(0, result[0][1]);
+    }
+
+    // Tests below here are MOCK TESTS
+
+    @Test
+    public void toBinaryArray_ShouldCallDistanceFinderWithCorrectValues() {
+        class MockColorDistanceFinder implements ColorDistanceFinder {
+            int calledCount = 0;
+            int lastColorA, lastColorB;
+
+            @Override
+            public double distance(int colorA, int colorB) {
+                calledCount++;
+                lastColorA = colorA;
+                lastColorB = colorB;
+                return 0; // force "white" output
+            }
+        }
+
+        MockColorDistanceFinder mockFinder = new MockColorDistanceFinder();
+        DistanceImageBinarizer binarizer = new DistanceImageBinarizer(mockFinder, 0xFF0000, 100);
+
+        BufferedImage img = new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB);
+        img.setRGB(0, 0, 0x00FF00); // green pixel
+
+        binarizer.toBinaryArray(img);
+
+        assertEquals(1, mockFinder.calledCount);
+        assertEquals(0xFF0000, mockFinder.lastColorA);
+        assertEquals(0x00FF00, mockFinder.lastColorB);
+    }
+
+    // Tests below here are REAL IMPLEMENTATION TESTS
+
     // ============================================================
     // 🧩 toBinaryArray() TESTS
     // ============================================================
