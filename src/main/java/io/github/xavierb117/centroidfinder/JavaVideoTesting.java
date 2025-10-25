@@ -13,8 +13,8 @@ import java.io.IOException;
 
 public class JavaVideoTesting {
     public static void main(String[] args) {
-        String inputPath = "C:\\Users\\izeco\\OneDrive\\Desktop\\SDEV 334\\centroid-finder\\centroid-finder\\sampleInput\\ensantina.mp4";
-        String outputPath = "C:\\Users\\izeco\\OneDrive\\Desktop\\SDEV 334\\centroid-finder\\centroid-finder\\sampleOutput";
+        String inputPath = "sampleInput/ensantina.mp4";
+        String outputPath = "sampleOutput";
 
         FFmpegFrameGrabber grab = new FFmpegFrameGrabber(inputPath);
         Java2DFrameConverter convert = new Java2DFrameConverter();
@@ -22,13 +22,13 @@ public class JavaVideoTesting {
         try {
             grab.start();
 
-            int frameToGrab = 0;
+            int frameToGrab = 10000;
             grab.setFrameNumber(frameToGrab);
             Frame frame = grab.grabImage();
 
             if (frame != null) {
                 BufferedImage bufferedImage = convert.convert(frame);
-                String fileName = "testImage.jpg";
+                String fileName = "testImage1.jpg";
                 File file = new File(outputPath, fileName);
                 ImageIO.write(bufferedImage, "jpg", file);
             }
