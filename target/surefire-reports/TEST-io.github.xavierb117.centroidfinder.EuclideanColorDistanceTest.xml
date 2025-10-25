@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" version="3.0.2" name="io.github.xavierb117.centroidfinder.EuclideanColorDistanceTest" time="0.012" tests="10" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" version="3.0.2" name="io.github.xavierb117.centroidfinder.EuclideanColorDistanceTest" time="0.017" tests="10" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="23"/>
     <property name="sun.cpu.isalist" value="amd64"/>
@@ -15,7 +15,7 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="US"/>
     <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk-23\bin"/>
-    <property name="sun.java.command" value="C:\Users\izeco\AppData\Local\Temp\surefire16679279501280849228\surefirebooter-20251023104333547_3.jar C:\Users\izeco\AppData\Local\Temp\surefire16679279501280849228 2025-10-23T10-43-33_395-jvmRun1 surefire-20251023104333547_1tmp surefire_0-20251023104333547_2tmp"/>
+    <property name="sun.java.command" value="C:\Users\izeco\AppData\Local\Temp\surefire6665459659285800316\surefirebooter-20251024203706658_3.jar C:\Users\izeco\AppData\Local\Temp\surefire6665459659285800316 2025-10-24T20-37-06_472-jvmRun1 surefire-20251024203706658_1tmp surefire_0-20251024203706658_2tmp"/>
     <property name="jdk.debug" value="release"/>
     <property name="surefire.test.class.path" value="C:\Users\izeco\OneDrive\Desktop\SDEV 334\centroid-finder\centroid-finder\target\test-classes;C:\Users\izeco\OneDrive\Desktop\SDEV 334\centroid-finder\centroid-finder\target\classes;C:\Users\izeco\.m2\repository\org\junit\jupiter\junit-jupiter\5.10.0\junit-jupiter-5.10.0.jar;C:\Users\izeco\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.10.0\junit-jupiter-api-5.10.0.jar;C:\Users\izeco\.m2\repository\org\opentest4j\opentest4j\1.3.0\opentest4j-1.3.0.jar;C:\Users\izeco\.m2\repository\org\junit\platform\junit-platform-commons\1.10.0\junit-platform-commons-1.10.0.jar;C:\Users\izeco\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\izeco\.m2\repository\org\junit\jupiter\junit-jupiter-params\5.10.0\junit-jupiter-params-5.10.0.jar;C:\Users\izeco\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.10.0\junit-jupiter-engine-5.10.0.jar;C:\Users\izeco\.m2\repository\org\junit\platform\junit-platform-engine\1.10.0\junit-platform-engine-1.10.0.jar;"/>
     <property name="sun.cpu.endian" value="little"/>
@@ -30,7 +30,7 @@
     <property name="line.separator" value="&#10;"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
-    <property name="surefire.real.class.path" value="C:\Users\izeco\AppData\Local\Temp\surefire16679279501280849228\surefirebooter-20251023104333547_3.jar"/>
+    <property name="surefire.real.class.path" value="C:\Users\izeco\AppData\Local\Temp\surefire6665459659285800316\surefirebooter-20251024203706658_3.jar"/>
     <property name="user.script" value=""/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="java.runtime.version" value="23.0.1+11-39"/>
@@ -59,13 +59,13 @@
     <property name="java.class.version" value="67.0"/>
   </properties>
   <testcase name="testSymmetry" classname="io.github.xavierb117.centroidfinder.EuclideanColorDistanceTest" time="0.0"/>
-  <testcase name="testBlackAndWhite" classname="io.github.xavierb117.centroidfinder.EuclideanColorDistanceTest" time="0.0"/>
+  <testcase name="testBlackAndWhite" classname="io.github.xavierb117.centroidfinder.EuclideanColorDistanceTest" time="0.001"/>
   <testcase name="testRedAndBlue" classname="io.github.xavierb117.centroidfinder.EuclideanColorDistanceTest" time="0.0"/>
-  <testcase name="testGreenChannelDifferenceOnly" classname="io.github.xavierb117.centroidfinder.EuclideanColorDistanceTest" time="0.0"/>
+  <testcase name="testGreenChannelDifferenceOnly" classname="io.github.xavierb117.centroidfinder.EuclideanColorDistanceTest" time="0.001"/>
   <testcase name="testBlueChannelDifferenceOnly" classname="io.github.xavierb117.centroidfinder.EuclideanColorDistanceTest" time="0.001"/>
   <testcase name="testRedAndGreen" classname="io.github.xavierb117.centroidfinder.EuclideanColorDistanceTest" time="0.001"/>
   <testcase name="testSameColor" classname="io.github.xavierb117.centroidfinder.EuclideanColorDistanceTest" time="0.001"/>
   <testcase name="testGreenAndBlue" classname="io.github.xavierb117.centroidfinder.EuclideanColorDistanceTest" time="0.001"/>
   <testcase name="testRedChannelDifferenceOnly" classname="io.github.xavierb117.centroidfinder.EuclideanColorDistanceTest" time="0.001"/>
-  <testcase name="testArbitraryColorDistance" classname="io.github.xavierb117.centroidfinder.EuclideanColorDistanceTest" time="0.0"/>
+  <testcase name="testArbitraryColorDistance" classname="io.github.xavierb117.centroidfinder.EuclideanColorDistanceTest" time="0.002"/>
 </testsuite>
