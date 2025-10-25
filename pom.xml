@@ -15,6 +15,11 @@
 
 
   <dependencies>
+  <dependency>
+    <groupId>org.bytedeco</groupId>
+    <artifactId>javacv-platform</artifactId>
+    <version>1.5.12</version>
+  </dependency>
   <!-- https://mvnrepository.com/artifact/com.orsonpdf/orsonpdf -->
     <!-- JUnit Jupiter -->
     <dependency>
