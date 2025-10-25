@@ -1,3 +1,5 @@
+// SATISFIED WITH USING JAVACV
+
 package io.github.xavierb117.centroidfinder;
 
 import org.bytedeco.javacv.FFmpegFrameGrabber;
@@ -15,24 +17,28 @@ public class JavaVideoTesting {
         String outputPath = "C:\\Users\\izeco\\OneDrive\\Desktop\\SDEV 334\\centroid-finder\\centroid-finder\\sampleOutput";
 
         FFmpegFrameGrabber grab = new FFmpegFrameGrabber(inputPath);
+        Java2DFrameConverter convert = new Java2DFrameConverter();
+
         try {
             grab.start();
 
             int frameToGrab = 0;
             grab.setFrameNumber(frameToGrab);
             Frame frame = grab.grabImage();
-            grab.close();
 
             if (frame != null) {
-                Java2DFrameConverter convert = new Java2DFrameConverter();
                 BufferedImage bufferedImage = convert.convert(frame);
-                convert.close();
-
-                ImageIO.write(bufferedImage, "jpg", new File(outputPath));
+                String fileName = "testImage.jpg";
+                File file = new File(outputPath, fileName);
+                ImageIO.write(bufferedImage, "jpg", file);
             }
             else {
                 System.out.println("Couldn't grab the frame");
             }
+
+            convert.close();
+            grab.close();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
