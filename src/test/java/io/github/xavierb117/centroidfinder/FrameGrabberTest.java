@@ -46,6 +46,23 @@ public class FrameGrabberTest {
         assertEquals(150, result.get(0).centroid().y());
     }
 
-    
+    @Test
+    void RecordsOneElementPerSecond() {
+        FrameGrabber grabber = new FrameGrabber(0xFF0000, 30, "fake.mp4") {
+            @Override
+            public List<TimeCoordinate> analysis() {
+                return List.of(
+                    new TimeCoordinate(0, new Coordinate(200, 150)),
+                    new TimeCoordinate(1, new Coordinate(200, 150)),
+                    new TimeCoordinate(2, new Coordinate(200, 150))
+                
+                );
+            }
+        };
+
+        List<TimeCoordinate> result = grabber.analysis();
+        assertEquals(3, result.size());
+        
+    }
 
 }
