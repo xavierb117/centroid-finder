@@ -19,6 +19,7 @@ public class VideoResultWriter implements AutoCloseable {
     @Override
     public void close()
     {
+        writer.flush();
         writer.close();
     }
 
