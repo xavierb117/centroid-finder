@@ -37,6 +37,15 @@ public class FrameGrabber {
 
                 if (frame != null) {
                     BufferedImage bufferedImage = convert.convert(frame);
+                    FramePasserToBinarizer getGroups = new FramePasserToBinarizer(bufferedImage, threshold, targetColor);
+                    List<Group> listOfGroups = getGroups.binarizerPasser();
+                    if (listOfGroups.isEmpty()) {
+                        movements.add(new TimeCoordinate(sec, new Coordinate(-1, -1)));
+                    }
+                    else {
+                        Group largestCentroid = listOfGroups.get(0);
+                        movements.add(new TimeCoordinate(sec, largestCentroid.centroid()));
+                    }
                 }
                 else {
                     System.out.println("Couldn't grab the frame.");
