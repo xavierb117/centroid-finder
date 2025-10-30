@@ -23,6 +23,5 @@
 hs_err_pid*
 replay_pid*
 
-sampleInput/ensantina.mp4
-sampleOutput/testImage.jpg
-sampleOutput/testImage1.jpg
+sampleInput/*.mp4
+sampleOutput/*.jpg
