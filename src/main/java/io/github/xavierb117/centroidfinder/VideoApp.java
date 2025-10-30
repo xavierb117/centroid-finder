@@ -22,6 +22,10 @@ public class VideoApp {
 
         try {
             Path path = Paths.get(inputPath);
+            if (!path.isAbsolute()) {
+                path = Path.of(System.getProperty("user.dir")).resolve(inputPath);
+            }
+
             if (!Files.exists(path) || !Files.isRegularFile(path)) {
                 System.out.println("Error: The inputPath is invalid. Please input again.");
                 return;
@@ -32,13 +36,27 @@ public class VideoApp {
         }
 
         try {
-            Path path = Paths.get(outputCsv);
-            if (!Files.exists(path) || !Files.isDirectory(path) || !Files.isWritable(path)) {
-                System.out.println("Error: The outputCsv is invalid. Please input again.");
+        Path outputPath = Paths.get(outputCsv);
+        Path parentDir = outputPath.getParent();
+
+        // If no parent (e.g., user just typed a filename), use current directory
+            if (parentDir == null) {
+                parentDir = Path.of(System.getProperty("user.dir"));
+            }
+        
+            // Create folder if it doesn’t exist
+            if (!Files.exists(parentDir)) {
+                Files.createDirectories(parentDir);
+            }
+        
+            // Final safety check
+            if (!Files.isDirectory(parentDir) || !Files.isWritable(parentDir)) {
+                System.out.println("Error: The output directory is invalid: " + parentDir.toAbsolutePath());
                 return;
             }
-        } catch (InvalidPathException e) {
-            System.out.println("Error: The outputCsv is invalid. Please input again.");
+        } catch (Exception e) {
+            System.out.println("Error: The output path is invalid or cannot be created.");
+            e.printStackTrace();
             return;
         }
 
@@ -62,7 +80,12 @@ public class VideoApp {
             FrameGrabber grabber = new FrameGrabber(targetColor, threshold, inputPath);
             var results = grabber.analysis();
 
-            try (VideoResultWriter writer = new VideoResultWriter(outputCsv)) {
+            Path outputPath = Paths.get(outputCsv);
+            if (Files.isDirectory(outputPath)) {
+                outputPath = outputPath.resolve("results.csv");
+            }
+        
+            try (VideoResultWriter writer = new VideoResultWriter(outputPath.toString())) {
                 for (TimeCoordinate tc : results) {
                     writer.write(tc.sec(), tc.centroid());
                 }

@@ -1,17 +1,17 @@
-C:\Users\izeco\OneDrive\Desktop\SDEV 334\centroid-finder\centroid-finder\src\main\java\io\github\xavierb117\centroidfinder\BinarizingImageGroupFinder.java
-C:\Users\izeco\OneDrive\Desktop\SDEV 334\centroid-finder\centroid-finder\src\main\java\io\github\xavierb117\centroidfinder\BinaryGroupFinder.java
-C:\Users\izeco\OneDrive\Desktop\SDEV 334\centroid-finder\centroid-finder\src\main\java\io\github\xavierb117\centroidfinder\ColorDistanceFinder.java
-C:\Users\izeco\OneDrive\Desktop\SDEV 334\centroid-finder\centroid-finder\src\main\java\io\github\xavierb117\centroidfinder\Coordinate.java
-C:\Users\izeco\OneDrive\Desktop\SDEV 334\centroid-finder\centroid-finder\src\main\java\io\github\xavierb117\centroidfinder\DfsBinaryGroupFinder.java
-C:\Users\izeco\OneDrive\Desktop\SDEV 334\centroid-finder\centroid-finder\src\main\java\io\github\xavierb117\centroidfinder\DistanceImageBinarizer.java
-C:\Users\izeco\OneDrive\Desktop\SDEV 334\centroid-finder\centroid-finder\src\main\java\io\github\xavierb117\centroidfinder\EuclideanColorDistance.java
-C:\Users\izeco\OneDrive\Desktop\SDEV 334\centroid-finder\centroid-finder\src\main\java\io\github\xavierb117\centroidfinder\FrameGrabber.java
-C:\Users\izeco\OneDrive\Desktop\SDEV 334\centroid-finder\centroid-finder\src\main\java\io\github\xavierb117\centroidfinder\FramePasserToBinarizer.java
-C:\Users\izeco\OneDrive\Desktop\SDEV 334\centroid-finder\centroid-finder\src\main\java\io\github\xavierb117\centroidfinder\Group.java
-C:\Users\izeco\OneDrive\Desktop\SDEV 334\centroid-finder\centroid-finder\src\main\java\io\github\xavierb117\centroidfinder\ImageBinarizer.java
-C:\Users\izeco\OneDrive\Desktop\SDEV 334\centroid-finder\centroid-finder\src\main\java\io\github\xavierb117\centroidfinder\ImageGroupFinder.java
-C:\Users\izeco\OneDrive\Desktop\SDEV 334\centroid-finder\centroid-finder\src\main\java\io\github\xavierb117\centroidfinder\ImageSummaryApp.java
-C:\Users\izeco\OneDrive\Desktop\SDEV 334\centroid-finder\centroid-finder\src\main\java\io\github\xavierb117\centroidfinder\JavaVideoTesting.java
-C:\Users\izeco\OneDrive\Desktop\SDEV 334\centroid-finder\centroid-finder\src\main\java\io\github\xavierb117\centroidfinder\TimeCoordinate.java
-C:\Users\izeco\OneDrive\Desktop\SDEV 334\centroid-finder\centroid-finder\src\main\java\io\github\xavierb117\centroidfinder\VideoApp.java
-C:\Users\izeco\OneDrive\Desktop\SDEV 334\centroid-finder\centroid-finder\src\main\java\io\github\xavierb117\centroidfinder\VideoResultWriter.java
+C:\Users\toast\SDEV334\centroid-finder\src\main\java\io\github\xavierb117\centroidfinder\BinarizingImageGroupFinder.java
+C:\Users\toast\SDEV334\centroid-finder\src\main\java\io\github\xavierb117\centroidfinder\BinaryGroupFinder.java
+C:\Users\toast\SDEV334\centroid-finder\src\main\java\io\github\xavierb117\centroidfinder\ColorDistanceFinder.java
+C:\Users\toast\SDEV334\centroid-finder\src\main\java\io\github\xavierb117\centroidfinder\Coordinate.java
+C:\Users\toast\SDEV334\centroid-finder\src\main\java\io\github\xavierb117\centroidfinder\DfsBinaryGroupFinder.java
+C:\Users\toast\SDEV334\centroid-finder\src\main\java\io\github\xavierb117\centroidfinder\DistanceImageBinarizer.java
+C:\Users\toast\SDEV334\centroid-finder\src\main\java\io\github\xavierb117\centroidfinder\EuclideanColorDistance.java
+C:\Users\toast\SDEV334\centroid-finder\src\main\java\io\github\xavierb117\centroidfinder\FrameGrabber.java
+C:\Users\toast\SDEV334\centroid-finder\src\main\java\io\github\xavierb117\centroidfinder\FramePasserToBinarizer.java
+C:\Users\toast\SDEV334\centroid-finder\src\main\java\io\github\xavierb117\centroidfinder\Group.java
+C:\Users\toast\SDEV334\centroid-finder\src\main\java\io\github\xavierb117\centroidfinder\ImageBinarizer.java
+C:\Users\toast\SDEV334\centroid-finder\src\main\java\io\github\xavierb117\centroidfinder\ImageGroupFinder.java
+C:\Users\toast\SDEV334\centroid-finder\src\main\java\io\github\xavierb117\centroidfinder\ImageSummaryApp.java
+C:\Users\toast\SDEV334\centroid-finder\src\main\java\io\github\xavierb117\centroidfinder\JavaVideoTesting.java
+C:\Users\toast\SDEV334\centroid-finder\src\main\java\io\github\xavierb117\centroidfinder\TimeCoordinate.java
+C:\Users\toast\SDEV334\centroid-finder\src\main\java\io\github\xavierb117\centroidfinder\VideoApp.java
+C:\Users\toast\SDEV334\centroid-finder\src\main\java\io\github\xavierb117\centroidfinder\VideoResultWriter.java
