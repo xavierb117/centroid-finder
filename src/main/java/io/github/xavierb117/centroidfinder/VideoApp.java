@@ -58,6 +58,19 @@ public class VideoApp {
             return;
         }
 
+        try {
+            FrameGrabber grabber = new FrameGrabber(targetColor, threshold, inputPath);
+            var results = grabber.analysis();
+
+            try (VideoResultWriter writer = new VideoResultWriter(outputCsv)) {
+                for (TimeCoordinate tc : results) {
+                    writer.write(tc.sec(), tc.centroid());
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         
     }
 }
