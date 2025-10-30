@@ -1,5 +1,6 @@
 package io.github.xavierb117.centroidfinder;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
@@ -14,4 +15,20 @@ public class FrameGrabberTest {
 
         assertTrue(result.isEmpty(), "Should return an empty list for a missing video");
     }
+
+    @Test
+    void shouldRecordMinusOneCoordinatesWhenNoBlobsFound() {
+        FrameGrabber grabber = new FrameGrabber(0xFF0000, 30, "fake.mp4") {
+            @Override
+            public List<TimeCoordinate> analysis() {
+                return List.of(new TimeCoordinate(0, new Coordinate(-1, -1)));
+            }
+        };
+
+        List<TimeCoordinate> result = grabber.analysis();
+        assertEquals(1, result.size());
+        assertEquals(-1, result.get(0).centroid().x());
+        assertEquals(-1, result.get(0).centroid().y());
+    }
+
 }
