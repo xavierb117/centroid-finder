@@ -1,6 +1,7 @@
-/Users/shams/Desktop/SDEV355/centroid-finder/src/test/java/io/github/xavierb117/centroidfinder/BinarizingImageGroupFinderTest.java
-/Users/shams/Desktop/SDEV355/centroid-finder/src/test/java/io/github/xavierb117/centroidfinder/DfsBinaryGroupFinderTest.java
-/Users/shams/Desktop/SDEV355/centroid-finder/src/test/java/io/github/xavierb117/centroidfinder/DistanceImageBinarizerTest.java
-/Users/shams/Desktop/SDEV355/centroid-finder/src/test/java/io/github/xavierb117/centroidfinder/EuclideanColorDistanceTest.java
-/Users/shams/Desktop/SDEV355/centroid-finder/src/test/java/io/github/xavierb117/centroidfinder/FramePasserToBinarizerTest.java
-/Users/shams/Desktop/SDEV355/centroid-finder/src/test/java/io/github/xavierb117/centroidfinder/VideoResultWriterTest.java
+C:\Users\izeco\OneDrive\Desktop\SDEV 334\centroid-finder\centroid-finder\src\test\java\io\github\xavierb117\centroidfinder\BinarizingImageGroupFinderTest.java
+C:\Users\izeco\OneDrive\Desktop\SDEV 334\centroid-finder\centroid-finder\src\test\java\io\github\xavierb117\centroidfinder\DfsBinaryGroupFinderTest.java
+C:\Users\izeco\OneDrive\Desktop\SDEV 334\centroid-finder\centroid-finder\src\test\java\io\github\xavierb117\centroidfinder\DistanceImageBinarizerTest.java
+C:\Users\izeco\OneDrive\Desktop\SDEV 334\centroid-finder\centroid-finder\src\test\java\io\github\xavierb117\centroidfinder\EuclideanColorDistanceTest.java
+C:\Users\izeco\OneDrive\Desktop\SDEV 334\centroid-finder\centroid-finder\src\test\java\io\github\xavierb117\centroidfinder\FrameGrabberTest.java
+C:\Users\izeco\OneDrive\Desktop\SDEV 334\centroid-finder\centroid-finder\src\test\java\io\github\xavierb117\centroidfinder\FramePasserToBinarizerTest.java
+C:\Users\izeco\OneDrive\Desktop\SDEV 334\centroid-finder\centroid-finder\src\test\java\io\github\xavierb117\centroidfinder\VideoResultWriterTest.java
