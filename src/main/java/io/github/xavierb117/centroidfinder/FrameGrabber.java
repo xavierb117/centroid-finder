@@ -51,6 +51,8 @@ public class FrameGrabber {
                     System.out.println("Couldn't grab the frame.");
                 }
             }
+            grab.close();
+            convert.close();
 
         } catch (IOException e) {
             e.printStackTrace();
