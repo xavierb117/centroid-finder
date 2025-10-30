@@ -17,3 +17,5 @@
 7. Grab the time from the loop (may need to change), then pass to result writer.
 8. Result writer will add to new CSV file (could need a list of new record just like group?) Should eventually return the CSV file.
 9. Main method should return the new CSV file that contains time and coordinates.
+
+TESTING: I got the first picture of the Salamander video, then I put it into an online tool called "imagecolorpicker.com" (https://imagecolorpicker.com/). Here, it would give me the color of the Salamander as a hex string. With the ImageSummaryApp, I inputted the picture into it to determine if the Salamander picture was good. It was good if the Salamander was big and white, while the edges of the picture were not white. I would go through the threshold and see if making it lower or higher would be better. Then, I settled on 43060a 80 which gave the Salamander a good white picture while also not catching the edges as much.
