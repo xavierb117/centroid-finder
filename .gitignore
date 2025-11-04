@@ -23,5 +23,11 @@
 hs_err_pid*
 replay_pid*
 
-sampleInput/*.mp4
-sampleOutput/*.jpg
+*.mp4
+testImage.jpg
+testImage1.jpg
+
+node_modules
+.env
+
+target
