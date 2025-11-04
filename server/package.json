@@ -12,10 +12,11 @@
     "name": ""
   },
   "scripts": {
-    "dev": "",
+    "dev": "nodemon main.js",
     "test": ""
   },
   "dependencies": {
-    "express": "^5.1.0"
+    "express": "^5.1.0",
+    "nodemon": "^3.1.10"
   }
 }
