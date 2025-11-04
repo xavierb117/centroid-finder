@@ -1,10 +1,7 @@
-import express from "express";
 import fs from "fs";
 import path from "path";
 
-const router = express.Router();
-
-router.get("/", (req, res) => {
+export const video =  (req, res) => {
     const dir = path.join(process.cwd(), "..", "processor", "videos");
     fs.readdir(dir, (err, files) => {
         if(err)
@@ -14,6 +11,4 @@ router.get("/", (req, res) => {
         }
         res.json(files)
     })
-})
-
-export default router;
+}

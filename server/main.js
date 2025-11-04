@@ -1,10 +1,12 @@
 import express from "express";
-import VideoRouter from "./routes/videos.js";
+import VideoRouter from "./routes/videosRoute.js";
+import thumbnailRouter from "./routes/thumbnailRoute.js"
 
 const app = express();
 app.use(express.json());
 
-app.use("/api/videos", VideoRouter);
+app.use("/", VideoRouter);
+app.use("/", thumbnailRouter)
 
 const PORT = 3000;
 
