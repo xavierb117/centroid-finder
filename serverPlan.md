@@ -13,6 +13,6 @@
 - Main point of connection **router/app** will be used to make routes towards existing logic within VideoApp.java
 - The first GET method will return all the videos found within the sampleInput Directory, we will need to access the directoy and view its contents with a router GET method.
 - The second GET method extracts a single frame from the video and returns it as a JPEG(image). We could utilize **ffmpeg** within the **exec** built-in javascript method to run against our VideoApp.java to grab a single frame and return it.
-- The Third method will be a POST method. We need it as a POST method to pass queries and parameters. This method will utilize **randomUUID** to make unique identifiers for each time we run the method. We can also utilize the **spawn** built-in method to call VideoApp.java to gather our output.
+- The Third method will be a POST method. We need it as a POST method to pass queries and parameters. This method will utilize **randomUUID** to make unique identifiers for each time we run the method. We can also utilize the **spawn** built-in method to call VideoApp.java to gather our output. This should be when the **JAR** command will run.
 - Our final Get will need the unique identifiers given from the **randomUUID** from the previous POST method. This will enable us to view if a process has failed or succeeded.
 - Our plan will utilize a file-system rather than a Database. We will use the unique Identfiers provided by **randomUUID** to distingusish between different processes ran.
