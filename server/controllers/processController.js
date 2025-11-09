@@ -16,8 +16,33 @@ export const startProcess = (req, res) => {
     const jobId = randomUUID();
     const input = path.join(process.cwd(), "..", "processor", "videos", filename)
     const output = path.join(process.cwd(), "..", "processor", "sampleOutput", `${filename}.csv`)
+
+
+    const processJob = spawn("java", [
+        "-jar", 
+        "../processor/target/videoprocessor-jar-with-dependencies.jar",
+        input,
+        output,
+        targetColor,
+        threshold
+    ])
+
+    jobs[jobId] = {status: "processing"}
+
+    processJob.on("close", (code) => {
+        if(code === 0)
+        {
+            jobs[jobId] = {status: "done", result: `/sampleOutput/${filename}.csv`}
+        }
+        else
+        {
+            jobs[jobId] = {status: "error", error: "error processing"}
+        }
+    })
+
+    res.status(202).json({jobId});
 }
 
 export const getProcess = (req, res) => {
-
+    
 }
