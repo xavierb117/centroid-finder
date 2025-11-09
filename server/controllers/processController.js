@@ -32,6 +32,7 @@ export const startProcess = (req, res) => {
     processJob.on("close", (code) => {
         if(code === 0)
         {
+            console.log(`[JAVA SUCCESS] CSV created: ${output}`);
             jobs[jobId] = {status: "done", result: `/sampleOutput/${filename}.csv`}
         }
         else
