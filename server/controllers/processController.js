@@ -44,5 +44,7 @@ export const startProcess = (req, res) => {
 }
 
 export const getProcess = (req, res) => {
-    
+    const job = jobs[req.params.jobId];
+    if(!job) return res.status(404).json({error: "Job ID not found"})
+    res.json(job);
 }
