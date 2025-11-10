@@ -24,8 +24,8 @@ hs_err_pid*
 replay_pid*
 
 *.mp4
-testImage.jpg
-testImage1.jpg
+*.jpg
+!squares.jpg
 
 node_modules
 .env
