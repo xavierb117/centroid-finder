@@ -2,18 +2,35 @@ import  request  from "supertest";
 import app from "../main.js";
 
 /*
-supertest is a JS libary
+Supertest is a JS libary
 Jest is the testing framework
+Babel is JS libary 
+
+#Supertest Libary
+
+    #request = Acts as a Virtual Machine almost and makes GETS and POST requests to the browser just as if we were typing it in ourselves
+        -sends fake HTTP requests to the browser
+-----------------------------------------------------------------------------------------------------------------------------------
+
+#Jest Framework
 
     #describe = groups together similar or related tests
 
     #test = defines individual tests to run
-        #utilizes a asynchronous function
-        #makes a call to the main app
-        #test the endpoint of the route
+        -utilizes a asynchronous function
+        -makes a call to the main app
+        -test the endpoint of the route
 
     #expect = makes assertions about what should be returned or the result 
-        #toBe = small assertion
+        -toBe = small assertion
+
+-----------------------------------------------------------------------------------------------------------------------------------
+
+#Babel Libary
+
+    #Babel = Acts as a translator for Jest
+        -transforms our code into older code or more readable syntax that can run on any system
+-----------------------------------------------------------------------------------------------------------------------------------
 */
 
 describe("Express API routes", () => {
