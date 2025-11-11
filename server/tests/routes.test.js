@@ -34,6 +34,11 @@ Babel is JS libary
 */
 
 describe("Express API routes", () => {
+
+    //
+    //  TEST FOR /API/VIDEOS ROUTE
+    //
+
     test("GET /Videos should return a list of videos available to use", async () => {
         const res = await request(app).get("/api/videos");
         expect(res.status).toBe(200);
@@ -44,4 +49,16 @@ describe("Express API routes", () => {
         const res = await request(app).get("/videos");
         expect(res.status).toBe(404);
     })
+
+    //
+    //  TEST FOR /PROCESS/:FILENAME & /PROCESS/:JOBID/STATUS
+    //
+
+    test("GET /process/:filename should return 400 because of no params", async () => {
+        const res = await request(app).get("/process/ensantina.mp4");
+        expect(res.status).toBe(400);
+        expect(res.body).toHaveProperty("error");
+        expect(res.body.error).toMatch("Need TargetColor and or Threshold");
+    })
+
 })
