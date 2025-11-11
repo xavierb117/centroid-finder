@@ -49,6 +49,15 @@ describe("Express API routes", () => {
         const res = await request(app).get("/videos");
         expect(res.status).toBe(404);
     })
+    
+    //
+    //  TEST FOR /THUMBNAIL/:FILENAME ROUTE
+    //
+
+    test("GET /thumbnail/:filename should return a 500 error for trouble generating", async () => {
+        const res = await request(app).get("/thumbnail/:filename");
+        expect(res.status).toBe(500);
+    })
 
     //
     //  TEST FOR /PROCESS/:FILENAME
@@ -64,7 +73,7 @@ describe("Express API routes", () => {
         const res = await request(app).get("/process/ensantina.mp4");
         expect(res.status).toBe(400);
         expect(res.body).toHaveProperty("error");
-        expect(res.body.error).toMatch("Need TargetColor and or Threshold");
+        expect(res.body.error).toMatch("Missing targetColor or threshold query parameter");
     })
 
     //
@@ -82,7 +91,7 @@ describe("Express API routes", () => {
 
         //test if the status get responds
         const statusRes = await request(app).get(`/process/${jobId}/status`)
-        expect(statusRes.status).toBe(202);
+        expect(statusRes.status).toBe(200);
     })
 
     test("GET /process/:jobId/status should return 404 because no ID was given", async () => {

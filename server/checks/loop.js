@@ -2,6 +2,8 @@ import fs from "fs"
 import path from "path"
 
 export default function checkStatus() {
+    if (process.env.NODE_ENV === "test") return;
+
     const jobDir = path.join(process.cwd(), process.env.JOB)
 
     setInterval(() => {
