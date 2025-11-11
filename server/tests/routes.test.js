@@ -51,7 +51,7 @@ describe("Express API routes", () => {
     })
 
     //
-    //  TEST FOR /PROCESS/:FILENAME & /PROCESS/:JOBID/STATUS
+    //  TEST FOR /PROCESS/:FILENAME
     //
 
     test("GET /process:filename should work properly and as expected", async () => {
@@ -65,6 +65,24 @@ describe("Express API routes", () => {
         expect(res.status).toBe(400);
         expect(res.body).toHaveProperty("error");
         expect(res.body.error).toMatch("Need TargetColor and or Threshold");
+    })
+
+    //
+    //  TEST FOR /PROCESS/:JOBID/STATUS
+    //
+
+    test("creating the jobId then testing the GET /process/:jobId/status", async () => {
+        //Creating the job
+        const jobRes = await request(app).get("/process/ensantina.mp4?targetColor=00FF00&threshold=50")
+        expect(jobRes.status).toBe(202);
+        expect(jobRes.body).toHaveProperty("jobId");
+
+        //pull out the id
+        const jobId = jobRes.body.jobId;
+
+        //test if the status get responds
+        const statusRes = await request(app).get(`/process/${jobId}/status`)
+        expect(statusRes.status).toBe(202);
     })
 
     test("GET /process/:jobId/status should return 404 because no ID was given", async () => {
