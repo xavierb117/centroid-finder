@@ -67,4 +67,10 @@ describe("Express API routes", () => {
         expect(res.body.error).toMatch("Need TargetColor and or Threshold");
     })
 
+    test("GET /process/:jobId/status should return 404 because no ID was given", async () => {
+        const res = await request(app).get("/process/:jobId/status");
+        expect(res.status).toBe(404);
+        expect(res.body.error).toMatch("Job ID not found");
+    })
+
 })
