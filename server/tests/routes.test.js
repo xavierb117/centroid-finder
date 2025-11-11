@@ -54,6 +54,12 @@ describe("Express API routes", () => {
     //  TEST FOR /PROCESS/:FILENAME & /PROCESS/:JOBID/STATUS
     //
 
+    test("GET /process:filename should work properly and as expected", async () => {
+        const res = await request(app).get("/process/ensantina.mp4?targetColor=00FF00&threshold=50")
+        expect(res.status).toBe(202);
+        expect(res.body).toHaveProperty("jobId");
+    })
+
     test("GET /process/:filename should return 400 because of no params", async () => {
         const res = await request(app).get("/process/ensantina.mp4");
         expect(res.status).toBe(400);
