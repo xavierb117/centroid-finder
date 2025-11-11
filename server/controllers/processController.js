@@ -50,9 +50,39 @@ export const startProcess = (req, res) => {
         return res.status(500).json({error: "Error starting job"})
     }
 }
-
+// if(!job) return res.status(404).json({error: "Job ID not found"})
 export const getProcess = (req, res) => {
-    const job = jobs[req.params.jobId];
-    if(!job) return res.status(404).json({error: "Job ID not found"})
-    res.status(202).json(job);
+    try {
+        const {jobId} = req.params;
+        const currentJobFile = path.join(process.cwd(), process.env.JOB, `${jobId}.status`)
+        let currentFile = currentJobFile;
+
+        if (!fs.existsSync(currentFile)) {
+            const currentArchiveFile = path.join(process.cwd(), process.env.ARCHIVE, `${jobId}.status`)
+            if (fs.existsSync(currentArchiveFile)) {
+                currentFile = currentArchiveFile;
+            }
+            else {
+                return res.status(404).json({error: "Job ID not found"})
+            }
+        }
+        
+        const data = JSON.parse(fs.readFileSync(currentFile, "utf-8"))
+
+        if (data.status === "processing") {
+            return res.status(200).json({status: "processing"})
+        }
+        else if (data.status === "done") {
+            return res.status(200).json({status: "done", result: process.env.OUTPUT_PATH/`${data.filename}.csv`})
+        }
+        else if (data.status === "error") {
+            return res.status(200).json({status: "error", error: "Error processing video: Unexpected ffmpeg error"})
+        }
+        else {
+            return res.status(500).json({error: "Error fetching job status"})
+        }
+        
+    } catch (err) {
+        return res.status(500).json({error: "Error fetching job status"})
+    }
 }
