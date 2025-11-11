@@ -6,7 +6,7 @@ export const video =  (req, res) => {
     fs.readdir(dir, (err, files) => {
         if(err)
         {
-            return res.status(500).json({error: "Error reading directory"})
+            return res.status(500).json({error: "Error reading video directory"})
         }
         res.status(200).json(files)
     })
