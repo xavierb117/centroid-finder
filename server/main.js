@@ -2,6 +2,9 @@ import express from "express";
 import VideoRouter from "./routes/videosRoute.js";
 import thumbnailRouter from "./routes/thumbnailRoute.js"
 import processRouter from "./routes/processRoute.js"
+import dotenv from 'dotenv'
+
+dotenv.config({path: "../.env"})
 
 const app = express();
 app.use(express.json());

@@ -25,7 +25,12 @@ export const startProcess = (req, res) => {
         output,
         targetColor,
         threshold
-    ])
+    ], {
+        detached: true,
+        stdio: "ignore"
+    })
+
+    processJob.unref()
 
     jobs[jobId] = {status: "processing"}
 
