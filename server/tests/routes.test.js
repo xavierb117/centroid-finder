@@ -59,6 +59,11 @@ describe("Express API routes", () => {
         expect(res.status).toBe(500);
     })
 
+    test("GET /thumbnail/:filename should return a 200 code for processing", async () => {
+        const res = await request(app).get("/thumbnail/ensantina.mp4");
+        expect(res.status).toBe(200);
+    })
+
     //
     //  TEST FOR /PROCESS/:FILENAME
     //
