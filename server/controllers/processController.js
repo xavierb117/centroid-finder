@@ -54,11 +54,11 @@ export const startProcess = (req, res) => {
 export const getProcess = (req, res) => {
     try {
         const {jobId} = req.params;
-        const currentJobFile = path.join(process.cwd(), process.env.JOB, `${jobId}.status`)
+        const currentJobFile = path.join(process.cwd(), process.env.JOB, `${jobId}`)
         let currentFile = currentJobFile;
 
         if (!fs.existsSync(currentFile)) {
-            const currentArchiveFile = path.join(process.cwd(), process.env.ARCHIVE, `${jobId}.status`)
+            const currentArchiveFile = path.join(process.cwd(), process.env.ARCHIVE, `${jobId}`)
             if (fs.existsSync(currentArchiveFile)) {
                 currentFile = currentArchiveFile;
             }
@@ -73,7 +73,7 @@ export const getProcess = (req, res) => {
             return res.status(200).json({status: "processing"})
         }
         else if (data.status === "done") {
-            return res.status(200).json({status: "done", result: process.env.OUTPUT_PATH/`${data.filename}.csv`})
+            return res.status(200).json({status: "done", result: path.join(process.env.OUTPUT_PATH, `${data.filename}.csv`)})
         }
         else if (data.status === "error") {
             return res.status(200).json({status: "error", error: "Error processing video: Unexpected ffmpeg error"})
