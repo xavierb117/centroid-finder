@@ -4,7 +4,7 @@ import path from "path"
 export default function checkStatus() {
     if (process.env.NODE_ENV === "test") return;
 
-    const jobDir = path.join(process.env.JOB)
+    const jobDir = process.env.JOB
 
     setInterval(() => {
         const files = fs.readdirSync(jobDir)
