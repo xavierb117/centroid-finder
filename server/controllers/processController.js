@@ -8,6 +8,11 @@ export const startProcess = (req, res) => {
         const {filename} = req.params;
         const {targetColor, threshold} = req.query;
 
+        let output = path.join(process.cwd(), process.env.OUTPUT_PATH, `${filename}.csv`)
+        if (fs.existsSync(output)) {
+            fs.unlinkSync(output)
+        }
+
         if (!targetColor || !threshold)
         {
             return res.status(400).json({error: "Missing targetColor or threshold query parameter"})
@@ -19,16 +24,15 @@ export const startProcess = (req, res) => {
         if (!fs.existsSync(input)) {
             return res.status(500).json({error: "Error starting job"})
         }
-
-        const output = path.join(process.cwd(), process.env.OUTPUT_PATH, `${filename}.csv`)
-        const jobDir = path.join(process.cwd(), process.env.JOB, `${jobId}.status`)
+        
+        const jobDir = path.join(process.cwd(), process.env.JOB, `${jobId}`)
 
         fs.writeFileSync(jobDir, JSON.stringify({
             status: "processing",
             filename,
             jobId,
             startTime: Date.now()
-        }))
+        }, null, 2))
 
 
         const processJob = spawn("java", [

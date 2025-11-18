@@ -11,27 +11,32 @@ export default function checkStatus() {
 
         for (const file of files) {
             const currentFile = path.join(jobDir, file)
-            const data = JSON.parse(fs.readFileSync(currentFile, "utf8"))
-            const {status, filename, jobId, time} = data
 
-            if (status === "processing") {
-                const outputPath = path.join(process.cwd(), process.env.OUTPUT_PATH, `${filename}.csv`)
+            try {
+                const data = JSON.parse(fs.readFileSync(currentFile, "utf-8"))
+                const {status, filename, jobId, startTime} = data
 
-                if (fs.existsSync(outputPath)) {
-                    data.status = "done";
-                    fs.writeFileSync(currentFile, JSON.stringify(data))
+                if (status === "processing") {
+                    const outputPath = path.join(process.cwd(), process.env.OUTPUT_PATH, `${filename}.csv`)
 
-                    const archiveDir = path.join(process.env.ARCHIVE)
-                    fs.renameSync(currentFile, path.join(archiveDir, `${jobId}`))
+                    if (fs.existsSync(outputPath)) {
+                        data.status = "done";
+                        fs.writeFileSync(currentFile, JSON.stringify(data, null, 2))
+
+                        const archiveDir = path.join(process.cwd(), process.env.ARCHIVE)
+                        fs.renameSync(currentFile, path.join(archiveDir, `${jobId}`))
+                    }
+                    else if (Date.now() - startTime > 1 * 60 * 1000) { // THIS IS IN MILLISECONDS, MINUTES TIMES 60 TIMES 1000
+                        data.status = "error"
+                        fs.writeFileSync(currentFile, JSON.stringify(data, null, 2))
+
+                        const archiveDir = path.join(process.cwd(), process.env.ARCHIVE)
+                        fs.renameSync(currentFile, path.join(archiveDir, `${jobId}`))
+                    }
                 }
-                else if (Date.now() - time > 3 * 60 * 1000) { // THIS IS IN MILLISECONDS, MINUTES TIMES 60 TIMES 1000
-                    data.status = "error"
-                    fs.writeFileSync(currentFile, JSON.stringify(data))
-
-                    const archiveDir = path.join(process.env.ARCHIVE)
-                    fs.renameSync(currentFile, path.join(archiveDir, `${jobId}`))
-                }
+            } catch(err) {
+                console.log("Error processing job file")    
             }
         }
-    }, 3000) // THIS IS SECONDS YOU WANT TIMES 1000, IT IS IN MILLISECONDS
+    }, 5000) // THIS IS SECONDS YOU WANT TIMES 1000, IT IS IN MILLISECONDS
 }
