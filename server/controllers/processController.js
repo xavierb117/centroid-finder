@@ -21,14 +21,14 @@ export const startProcess = (req, res) => {
         }
 
         const output = path.join(process.cwd(), process.env.OUTPUT_PATH, `${filename}.csv`)
-        const jobDir = path.join(process.cwd(), process.env.JOB, `${jobId}.status`)
+        const jobDir = path.join(process.cwd(), process.env.JOB, `${jobId}.json`)
 
         fs.writeFileSync(jobDir, JSON.stringify({
             status: "processing",
             filename,
             jobId,
             startTime: Date.now()
-        }))
+        }, null, 2))
 
 
         const processJob = spawn("java", [
@@ -54,11 +54,11 @@ export const startProcess = (req, res) => {
 export const getProcess = (req, res) => {
     try {
         const {jobId} = req.params;
-        const currentJobFile = path.join(process.cwd(), process.env.JOB, `${jobId}`)
+        const currentJobFile = path.join(process.cwd(), process.env.JOB, `${jobId}.json`)
         let currentFile = currentJobFile;
 
         if (!fs.existsSync(currentFile)) {
-            const currentArchiveFile = path.join(process.cwd(), process.env.ARCHIVE, `${jobId}`)
+            const currentArchiveFile = path.join(process.cwd(), process.env.ARCHIVE, `${jobId}.json`)
             if (fs.existsSync(currentArchiveFile)) {
                 currentFile = currentArchiveFile;
             }
