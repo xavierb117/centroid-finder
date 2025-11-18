@@ -24,14 +24,14 @@ export default function checkStatus() {
                         fs.writeFileSync(currentFile, JSON.stringify(data, null, 2))
 
                         const archiveDir = path.join(process.cwd(), process.env.ARCHIVE)
-                        fs.renameSync(currentFile, path.join(archiveDir, `${jobId}.json`))
+                        fs.renameSync(currentFile, path.join(archiveDir, `${jobId}`))
                     }
-                    else if (Date.now() - startTime > 2 * 60 * 1000) { // THIS IS IN MILLISECONDS, MINUTES TIMES 60 TIMES 1000
+                    else if (Date.now() - startTime > 1 * 60 * 1000) { // THIS IS IN MILLISECONDS, MINUTES TIMES 60 TIMES 1000
                         data.status = "error"
                         fs.writeFileSync(currentFile, JSON.stringify(data, null, 2))
 
                         const archiveDir = path.join(process.cwd(), process.env.ARCHIVE)
-                        fs.renameSync(currentFile, path.join(archiveDir, `${jobId}.json`))
+                        fs.renameSync(currentFile, path.join(archiveDir, `${jobId}`))
                     }
                 }
             } catch(err) {
