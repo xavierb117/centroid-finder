@@ -2,8 +2,8 @@ import path from "path";
 import {exec} from "child_process"
 
 export const thumbnail = (req, res) => {
-    const getVideo = path.join(process.env.VIDEOS, req.params.filename);
-    const getOutput = path.join(process.env.OUTPUT_PATH, `${req.params.filename}.jpg`)
+    const getVideo = path.resolve(process.env.VIDEOS, req.params.filename);
+    const getOutput = path.resolve(process.env.OUTPUT_PATH, `${req.params.filename}.jpg`)
 
     exec(`ffmpeg -i "${getVideo}" -frames:v 1 "${getOutput}" -y`, (err) => {
         if (err) {
