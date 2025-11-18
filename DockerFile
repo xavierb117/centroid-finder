@@ -19,10 +19,12 @@ COPY server/ ./
 #Create jobs & archive INSIDE the server folder
 RUN mkdir -p /app/server/jobs /app/server/archive
 
-ENV VIDEO_DIRECTORY=/videos
-ENV RESULTS_DIRECTORY=/results
-ENV JOB=/app/server/jobs
-ENV ARCHIVE=/app/server/archive
+ENV NODE_ENV=production
+ENV VIDEOS=/videos
+ENV OUTPUT_PATH=/results
+ENV JOB=jobs
+ENV ARCHIVE=archive
+ENV TARGET=/app/videoprocessor.jar
 
 EXPOSE 3000
 CMD ["npm", "start"]

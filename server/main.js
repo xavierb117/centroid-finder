@@ -3,9 +3,11 @@ import VideoRouter from "./routes/videosRoute.js";
 import thumbnailRouter from "./routes/thumbnailRoute.js"
 import processRouter from "./routes/processRoute.js"
 import checkStatus from "./checks/loop.js"
-import dotenv from 'dotenv'
+import dotenv from "dotenv";
 
-dotenv.config({path: "../.env"})
+if (!process.env.NODE_ENV || process.env.NODE_ENV !== "production") {
+  dotenv.config({ path: "../.env" });
+}
 
 const app = express();
 app.use(express.json());

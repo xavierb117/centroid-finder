@@ -8,7 +8,7 @@ export const startProcess = (req, res) => {
         const {filename} = req.params;
         const {targetColor, threshold} = req.query;
 
-        let output = path.join(process.cwd(), process.env.OUTPUT_PATH, `${filename}.csv`)
+        let output = path.join(process.env.OUTPUT_PATH, `${filename}.csv`)
         if (fs.existsSync(output)) {
             fs.unlinkSync(output)
         }
@@ -19,13 +19,13 @@ export const startProcess = (req, res) => {
         }
 
         const jobId = randomUUID();
-        const input = path.join(process.cwd(), process.env.VIDEOS, filename)
+        const input = path.join(process.env.VIDEOS, filename)
 
         if (!fs.existsSync(input)) {
             return res.status(500).json({error: "Error starting job"})
         }
         
-        const jobDir = path.join(process.cwd(), process.env.JOB, `${jobId}`)
+        const jobDir = path.join(process.env.JOB, `${jobId}`)
 
         fs.writeFileSync(jobDir, JSON.stringify({
             status: "processing",
@@ -36,7 +36,7 @@ export const startProcess = (req, res) => {
 
 
         const processJob = spawn("java", [
-            process.env.JAR, 
+            "-jar", 
             process.env.TARGET,
             input,
             output,
@@ -58,11 +58,11 @@ export const startProcess = (req, res) => {
 export const getProcess = (req, res) => {
     try {
         const {jobId} = req.params;
-        const currentJobFile = path.join(process.cwd(), process.env.JOB, `${jobId}`)
+        const currentJobFile = path.join(process.env.JOB, `${jobId}`)
         let currentFile = currentJobFile;
 
         if (!fs.existsSync(currentFile)) {
-            const currentArchiveFile = path.join(process.cwd(), process.env.ARCHIVE, `${jobId}`)
+            const currentArchiveFile = path.join(process.env.ARCHIVE, `${jobId}`)
             if (fs.existsSync(currentArchiveFile)) {
                 currentFile = currentArchiveFile;
             }
