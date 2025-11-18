@@ -4,7 +4,7 @@ import path from "path"
 export default function checkStatus() {
     if (process.env.NODE_ENV === "test") return;
 
-    const jobDir = path.join(process.cwd(), process.env.JOB)
+    const jobDir = path.join(process.env.JOB)
 
     setInterval(() => {
         const files = fs.readdirSync(jobDir)
@@ -17,20 +17,20 @@ export default function checkStatus() {
                 const {status, filename, jobId, startTime} = data
 
                 if (status === "processing") {
-                    const outputPath = path.join(process.cwd(), process.env.OUTPUT_PATH, `${filename}.csv`)
+                    const outputPath = path.join(process.env.OUTPUT_PATH, `${filename}.csv`)
 
                     if (fs.existsSync(outputPath)) {
                         data.status = "done";
                         fs.writeFileSync(currentFile, JSON.stringify(data, null, 2))
 
-                        const archiveDir = path.join(process.cwd(), process.env.ARCHIVE)
+                        const archiveDir = process.env.ARCHIVE
                         fs.renameSync(currentFile, path.join(archiveDir, `${jobId}`))
                     }
                     else if (Date.now() - startTime > 1 * 60 * 1000) { // THIS IS IN MILLISECONDS, MINUTES TIMES 60 TIMES 1000
                         data.status = "error"
                         fs.writeFileSync(currentFile, JSON.stringify(data, null, 2))
 
-                        const archiveDir = path.join(process.cwd(), process.env.ARCHIVE)
+                        const archiveDir = process.env.ARCHIVE
                         fs.renameSync(currentFile, path.join(archiveDir, `${jobId}`))
                     }
                 }
