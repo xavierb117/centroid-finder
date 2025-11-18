@@ -36,7 +36,7 @@ export const startProcess = (req, res) => {
 
 
         const processJob = spawn("java", [
-            process.env.JAR, 
+            "-jar", 
             process.env.TARGET,
             input,
             output,
