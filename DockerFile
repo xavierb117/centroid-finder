@@ -1,9 +1,12 @@
-FROM node:20-bookworm
+FROM eclipse-temurin:21-jre
 
-RUN apt-get update && apt-get install -y \
-    openjdk-17-jre \
-    ffmpeg \
-    && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && \
+    apt-get install -y curl ffmpeg && \
+    rm -rf /var/lib/apt/lists/*
+
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
+    apt-get install -y nodejs && \
+    rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
@@ -16,7 +19,6 @@ COPY server/package*.json ./
 RUN npm install --silent
 COPY server/ ./
 
-#Create jobs & archive INSIDE the server folder
 RUN mkdir -p /app/server/jobs /app/server/archive
 
 ENV NODE_ENV=production
@@ -27,4 +29,5 @@ ENV ARCHIVE=archive
 ENV TARGET=/app/videoprocessor.jar
 
 EXPOSE 3000
+
 CMD ["npm", "start"]
