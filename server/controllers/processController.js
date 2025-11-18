@@ -82,6 +82,19 @@ export const getProcess = (req, res) => {
         else if (data.status === "error") {
             return res.status(200).json({status: "error", error: "Error processing video: Unexpected ffmpeg error"})
         }
+        else if (data.status === "done") {
+            const out = path.resolve(process.env.OUTPUT_PATH, `${data.filename}.csv`);
+            const size = fs.statSync(out).size;
+
+            if (size < 10) {
+                return res.status(200).json({ status: "error", error: "Output file empty → FFmpeg failed" });
+            }
+
+            return res.status(200).json({
+                status: "done",
+                result: out
+            });
+        }
         else {
             return res.status(500).json({error: "Error fetching job status"})
         }
