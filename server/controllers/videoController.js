@@ -2,7 +2,7 @@ import fs from "fs";
 import path from "path";
 
 export const video =  (req, res) => {
-    const dir = path.join(process.cwd(), process.env.VIDEOS)
+    const dir = process.env.VIDEOS
     fs.readdir(dir, (err, files) => {
         if(err)
         {
