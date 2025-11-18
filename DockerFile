@@ -1,0 +1,28 @@
+FROM node:20-bookworm
+
+RUN apt-get update && apt-get install -y \
+    openjdk-17-jre \
+    ffmpeg \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+
+COPY processor/target/videoprocessor-jar-with-dependencies.jar /app/videoprocessor.jar
+
+RUN mkdir -p /videos /results
+
+WORKDIR /app/server
+COPY server/package*.json ./
+RUN npm install --silent
+COPY server/ ./
+
+#Create jobs & archive INSIDE the server folder
+RUN mkdir -p /app/server/jobs /app/server/archive
+
+ENV VIDEO_DIRECTORY=/videos
+ENV RESULTS_DIRECTORY=/results
+ENV JOB=/app/server/jobs
+ENV ARCHIVE=/app/server/archive
+
+EXPOSE 3000
+CMD ["npm", "start"]
