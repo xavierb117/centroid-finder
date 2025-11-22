@@ -4,6 +4,7 @@ import thumbnailRouter from "./routes/thumbnailRoute.js"
 import processRouter from "./routes/processRoute.js"
 import checkStatus from "./checks/loop.js"
 import dotenv from "dotenv";
+import cors from 'cors'
 
 if (!process.env.NODE_ENV || process.env.NODE_ENV !== "production") {
   dotenv.config({ path: "../.env" });
@@ -11,6 +12,7 @@ if (!process.env.NODE_ENV || process.env.NODE_ENV !== "production") {
 
 const app = express();
 app.use(express.json());
+app.use(cors())
 
 app.use("/", VideoRouter);
 app.use("/", thumbnailRouter);
