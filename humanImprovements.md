@@ -20,7 +20,7 @@
 - Server needs JSdoc
 
 ## Improving Performance (optional)
--
+- 
 
 ## Hardening Security (optional)
 -
@@ -29,4 +29,4 @@
 -
 
 ## Other (optional)
-- 
+- Low priority, but maybe write a timer for files in archive and delete them after so archive doesn't get bloated.
