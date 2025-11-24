@@ -22,7 +22,7 @@
 2. 
 
 ## Hardening Security (optional)
-1. 
+1. Change our Main.js File to Accept only known routes (Hard Coded) addresses to our server
 2. 
 
 ## Bug Fixes (optional)
