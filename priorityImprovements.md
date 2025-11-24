@@ -11,7 +11,7 @@
 
 ## Improving Error Handling (requried)
 1. 
-2. 
+2. Give more detail to error codes, letting the user know what to fix or change to have a successful process
 
 ## Writing Documentation (required)
 1. 
