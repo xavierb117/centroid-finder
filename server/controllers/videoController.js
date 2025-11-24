@@ -1,0 +1,13 @@
+import fs from "fs";
+import path from "path";
+
+export const video =  (req, res) => {
+    const dir = process.env.VIDEOS
+    fs.readdir(dir, (err, files) => {
+        if(err)
+        {
+            return res.status(500).json({error: "Error reading video directory"})
+        }
+        res.status(200).json(files)
+    })
+}

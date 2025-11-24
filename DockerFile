@@ -1,0 +1,33 @@
+FROM eclipse-temurin:21-jre
+
+RUN apt-get update && \
+    apt-get install -y curl ffmpeg && \
+    rm -rf /var/lib/apt/lists/*
+
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
+    apt-get install -y nodejs && \
+    rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+
+COPY processor/target/videoprocessor-jar-with-dependencies.jar /app/videoprocessor.jar
+
+RUN mkdir -p /videos /results
+
+WORKDIR /app/server
+COPY server/package*.json ./
+RUN npm install --silent
+COPY server/ ./
+
+RUN mkdir -p /app/server/jobs /app/server/archive
+
+ENV NODE_ENV=production
+ENV VIDEOS=/videos
+ENV OUTPUT_PATH=/results
+ENV JOB=jobs
+ENV ARCHIVE=archive
+ENV TARGET=/app/videoprocessor.jar
+
+EXPOSE 3000
+
+CMD ["npm", "start"]
