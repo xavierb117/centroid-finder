@@ -6,10 +6,17 @@ import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+/**
+ * The Video Application processor that runs the entire Video processor logic based on a command line.
+ * This path takess in the JAR, an input path representing the video, an outputCSV representing the file to write to, a targetColor hex, and a threshold.
+ * Validates input for each line in the command.
+ * 
+ * Overall, it will call FrameGrabber to grab the specific frame, which will then be analyzed and binarized. These frames gets saved to a TimeCoordinate list,
+ * which will be used in VideoResultWriter to actually write to the file the user typed in from outputCsv.
+ * 
+ * @param args The array of strings that holds each of the 4 parts of the JAR command. This will be validated and converted appropriately to write a CSV file of time and coordinates.
+ */
 public class VideoApp {
-    // WILL TAKE IN: inputPath, outputCsv, targetColor, and threshold
-    // MUST GENERATE A CSV THAT TRACKS THE LARGEST CENTROID OVER TIME. FIRST COLUMN IS SECONDS< THEN X AND Y COORDINATES
-    // NO CENTROID RETURNS -1, -1
     public static void main(String[] args) {
         if (args.length < 4) {
             System.out.println("Usage: java -jar ../processor/target/videoprocessor-jar-with-dependencies.jar inputPath outputCsv targetColor threshold");
