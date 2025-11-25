@@ -1,6 +1,13 @@
 import fs from "fs"
 import path from "path"
 
+/**
+ * Creates a JSON output to show users (processing, error, done). Utilizes a Interval to recgonize if the process needs to be an Error, or if it has processed correctly.
+ * @const jobDir finds the specific job processes are being ran against
+ * 
+ * Interval time is based off milliseconds and is set based off how long the video will take to be processed
+ */
+
 export default function checkStatus() {
     if (process.env.NODE_ENV === "test") return;
 
