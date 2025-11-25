@@ -10,8 +10,8 @@
 2. Look more into DistanceImageBinarizerTest for more tests regarding failure
 
 ## Improving Error Handling (requried)
-1. Write more error handling for when invalid colors are put for color or threshold if it doesn't match the valid format
-2. Give more detail to error codes, letting the user know what to fix or change to have a successful process
+1. Write more error handling for when invalid colors are put for color or threshold if it doesn't match the valid format ✅
+2. Give more detail to error codes, letting the user know what to fix or change to have a successful process ✅
 
 ## Writing Documentation (required)
 1. Write JavaDocs
