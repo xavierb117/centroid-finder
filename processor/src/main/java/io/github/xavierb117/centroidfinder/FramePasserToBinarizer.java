@@ -3,7 +3,7 @@ package io.github.xavierb117.centroidfinder;
 import java.util.List;
 import java.awt.image.BufferedImage;
 
-public class FramePasserToBinarizer {
+public class FramePasserToBinarizer implements FrameBinarizer {
     private BufferedImage bufferedImage;
     private int threshold;
     private int targetColor;
@@ -14,6 +14,7 @@ public class FramePasserToBinarizer {
         this.targetColor = targetColor;
     }
 
+    @Override
     public List<Group> binarizerPasser() {
         DfsBinaryGroupFinder finder = new DfsBinaryGroupFinder();
         EuclideanColorDistance colorDistance = new EuclideanColorDistance();
