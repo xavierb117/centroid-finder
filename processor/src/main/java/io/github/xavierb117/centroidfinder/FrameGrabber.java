@@ -8,7 +8,7 @@ import java.util.List;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-public class FrameGrabber {
+public class FrameGrabber implements Grabber {
     private int targetColor;
     private int threshold;
     private String inputPath;
@@ -19,6 +19,7 @@ public class FrameGrabber {
         this.inputPath = inputPath;
     }
 
+    @Override
     public List<TimeCoordinate> analysis() {
         List<TimeCoordinate> movements = new ArrayList<>();
 
