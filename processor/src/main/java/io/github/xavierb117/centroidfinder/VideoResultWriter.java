@@ -1,12 +1,13 @@
 package io.github.xavierb117.centroidfinder;
 
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.PrintWriter;
 
 public class VideoResultWriter implements AutoCloseable, VideoWriter {
     private final PrintWriter writer;
 
-    public VideoResultWriter(String path) throws Exception {
+    public VideoResultWriter(String path) throws IOException {
         writer = new PrintWriter(new FileWriter(path));
         writer.println("time_seconds,x,y");
     }

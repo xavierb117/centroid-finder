@@ -56,7 +56,7 @@ public class FrameGrabber implements Grabber {
             convert.close();
 
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Ffmpeg failed to analyze the video");
         }
 
         return movements;
