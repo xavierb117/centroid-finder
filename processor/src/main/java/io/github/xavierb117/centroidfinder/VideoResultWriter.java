@@ -3,7 +3,7 @@ package io.github.xavierb117.centroidfinder;
 import java.io.FileWriter;
 import java.io.PrintWriter;
 
-public class VideoResultWriter implements AutoCloseable {
+public class VideoResultWriter implements AutoCloseable, VideoWriter {
     private final PrintWriter writer;
 
     public VideoResultWriter(String path) throws Exception {
@@ -11,6 +11,7 @@ public class VideoResultWriter implements AutoCloseable {
         writer.println("time_seconds,x,y");
     }
 
+    @Override
     public void write(int second, Coordinate centroid)
     {
         writer.printf("%d,%d,%d%n", second, centroid.x(), centroid.y());
