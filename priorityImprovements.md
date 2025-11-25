@@ -2,7 +2,7 @@
 - Top 2 improvements we think would be important in each category. 4 are required, 4 are optional and will be low priority.
 
 ## Refactoring Code (required) 
-1. Create interfaces for classes
+1. Create interfaces for classes ✅
 2. DFSBinaryGroupFinder could be split and use a helper function for more reaadability
 
 ## Adding Tests (required)
