@@ -23,5 +23,14 @@ describe("Process Route", () => {
         expect(res.body.error).toMatch("Missing targetColor or threshold query parameter")
     })
 
+    test("GET /process/:filename should return 500 if video file does not exist", async () => {
+        jest.spyOn(fs, "existsSync").mockReturnValue(false);
 
+        const res = await request(app).get("/process/notreal.mp4?targetColor=FFFFFF&threshold=20");
+
+        expect(res.status).toBe(500);
+        expect(res.body.error).toBe("Error starting job");
+
+        jest.restoreAllMocks();
+    });
 })
