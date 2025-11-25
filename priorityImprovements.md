@@ -8,7 +8,7 @@
 ## Adding Tests (required)
 1. Add more server-sided tests, not a lot but just more to conver more server responses for 2 routes
 2. Look more into DistanceImageBinarizerTest for more tests regarding failure
-3. Change file structure of tests to be more oriented towards one route 
+3. Change file structure of server tests to be more oriented towards one route ✅
 
 ## Improving Error Handling (requried)
 1. Write more error handling for when invalid colors are put for color or threshold if it doesn't match the valid format
