@@ -1,5 +1,6 @@
 package io.github.xavierb117.centroidfinder;
 
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
@@ -11,7 +12,7 @@ public class VideoApp {
     // NO CENTROID RETURNS -1, -1
     public static void main(String[] args) {
         if (args.length < 4) {
-            System.out.println("Usage: java -jar videoprocessor.jar inputPath outputCsv targetColor threshold");
+            System.out.println("Usage: java -jar ../processor/target/videoprocessor-jar-with-dependencies.jar inputPath outputCsv targetColor threshold");
             return;
         }
 
@@ -54,9 +55,8 @@ public class VideoApp {
                 System.out.println("Error: The output directory is invalid: " + parentDir.toAbsolutePath());
                 return;
             }
-        } catch (Exception e) {
+        } catch (IOException e) {
             System.out.println("Error: The output path is invalid or cannot be created.");
-            e.printStackTrace();
             return;
         }
 
@@ -90,10 +90,14 @@ public class VideoApp {
                     writer.write(tc.sec(), tc.centroid());
                 }
             }
+            catch (IOException e) {
+                System.out.println("Error: Failed to create or write to the output CSV");
+                return;
+            }
         } catch (Exception e) {
+            System.out.println("Error: Failed to read files and write to CSV");
             e.printStackTrace();
-        }
-
-        
+            return;
+        } 
     }
 }

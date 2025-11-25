@@ -1,5 +1,6 @@
 package io.github.xavierb117.centroidfinder;
 
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
@@ -8,7 +9,7 @@ import org.junit.jupiter.api.Test;
 
 public class VideoResultWriterTest {
     @Test
-    void shouldCreateFileWithHeader() throws Exception {
+    void shouldCreateFileWithHeader() throws IOException {
         Path tempFile = Files.createTempFile("videoresult-", ".csv");
 
         try (VideoResultWriter writer = new VideoResultWriter(tempFile.toString())) {
@@ -21,7 +22,7 @@ public class VideoResultWriterTest {
     }
 
     @Test
-    void shouldWriteSingleLineAfterHeader() throws Exception {
+    void shouldWriteSingleLineAfterHeader() throws IOException {
         Path tempFile = Files.createTempFile("videoresult-", ".csv");
         Coordinate c = new Coordinate(100, 200);
 
@@ -36,7 +37,7 @@ public class VideoResultWriterTest {
     }
 
     @Test
-    void shouldWriteMultipleLinesAfterHeader() throws Exception {
+    void shouldWriteMultipleLinesAfterHeader() throws IOException {
         Path tempFile = Files.createTempFile("videoresult-", ".csv");
         Coordinate c = new Coordinate(100, 200);
 

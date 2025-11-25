@@ -21,14 +21,32 @@ export const startProcess = (req, res) => {
         const {filename} = req.params;
         const {targetColor, threshold} = req.query;
 
-        let output = path.resolve(process.env.OUTPUT_PATH, `${filename}.csv`)
-        if (fs.existsSync(output)) {
-            fs.unlinkSync(output)
-        }
-
         if (!targetColor || !threshold)
         {
             return res.status(400).json({error: "Missing targetColor or threshold query parameter"})
+        }
+
+
+        function isValidHex(hex) {
+            return /^([0-9A-Fa-f]{6})$/.test(hex);
+        }
+
+        function isValidThreshold(tolerance) {
+            const num = Number(tolerance)
+            return Number.isInteger(num);
+        }
+
+        if (!isValidHex(targetColor)) {
+            return res.status(400).json({error: "Invalid targetColor. Color must be 6-digit hex RGB (00FF00)."})
+        }
+
+        if (!isValidThreshold(threshold)) {
+            return res.status(400).json({error: "Invalid threshold. Threshold must be a number"})
+        }
+
+        let output = path.resolve(process.env.OUTPUT_PATH, `${filename}.csv`)
+        if (fs.existsSync(output)) {
+            fs.unlinkSync(output)
         }
 
         const jobId = randomUUID();
