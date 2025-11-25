@@ -55,4 +55,24 @@ describe("Process Status Route", () => {
         jest.restoreAllMocks();
     });
 
+    test("GET /process/:jobId/status should return error when status is 'error'", async () => {
+        jest.spyOn(fs, "existsSync").mockReturnValue(true);
+        jest.spyOn(fs, "readFileSync").mockReturnValue(
+            JSON.stringify({
+                status: "error",
+                filename: "ensantina.mp4",
+                jobId: "123"
+            })
+        );
+
+        const res = await request(app).get("/process/123/status");
+
+        expect(res.status).toBe(200);
+        expect(res.body.status).toBe("error");
+        expect(res.body.error).toMatch("Unexpected ffmpeg error");
+
+        jest.restoreAllMocks();
+    });
+
+
 })
