@@ -6,6 +6,17 @@ import checkStatus from "./checks/loop.js"
 import dotenv from "dotenv";
 import cors from 'cors'
 
+/**
+ *  Root of express routes and how they are all mounted
+ * 
+ * @const app main variable that our express server runs on
+ * @cors runs as a security measure to make sure we can 1. make requests from an external server, and 2. to ensure security to the server
+ * @checkStatus is a function that returns a updated json file with (done, error) regarding the process time and video processed
+ * 
+ * app always listens on port 3000
+ */
+
+
 if (!process.env.NODE_ENV || process.env.NODE_ENV !== "production") {
   dotenv.config({ path: "../.env" });
 }
