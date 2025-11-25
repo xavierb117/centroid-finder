@@ -33,4 +33,22 @@ describe("Process Route", () => {
 
         jest.restoreAllMocks();
     });
+
+    test("GET /process/:filename should delete existing output file", async () => {
+        const exists = jest.spyOn(fs, "existsSync")
+            .mockReturnValueOnce(true) 
+            .mockReturnValue(true);    
+
+        const unlink = jest.spyOn(fs, "unlinkSync").mockImplementation(() => {});
+        jest.spyOn(fs, "writeFileSync").mockImplementation(() => {});
+
+        const res = await request(app).get(
+            "/process/ensantina.mp4?targetColor=00FF00&threshold=50"
+        );
+
+        expect(res.status).toBe(202);
+        expect(unlink).toHaveBeenCalled();
+
+        jest.restoreAllMocks();
+    });
 })
