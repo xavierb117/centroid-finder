@@ -8,16 +8,46 @@ import java.util.List;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
+/**
+ * An implementation of the Grabber interface. It uses a targetColor, threshold, and input path to grab
+ * video frames for analysis.
+ * 
+ * Utilizes JavaCV's FFmpegFrameGrabber to grab a frame from the inputPath, which should be a video. 
+ * Methods granted by JavaCV allow for grabbing frames over each second of the video.
+ * 
+ * The frame gets converted to a BufferedImage for binarization, which is influenced by the targetColor and threshold.
+ * The list of groups returned will be used for grabbing the greatest centroid and adding it to the movements list for CSV.
+ */
+
 public class FrameGrabber implements Grabber {
     private int targetColor;
     private int threshold;
     private String inputPath;
+
+    /**
+     * Constructs a FrameGrabber using targetColor, threshold, and inputPath. 
+     * 
+     * @param targetColor A hex color used to determine what color the user wants analyzed (0xRRGGBB)
+     * @param threshold A tolerance integer for better analyzing specific colors. High tolerance can analyze more colors that resemble targetColor. Low tolerance won't.
+     * @param inputPath An input path for the video to analyze. 
+     */
 
     public FrameGrabber(int targetColor, int threshold, String inputPath) {
         this.targetColor = targetColor;
         this.threshold = threshold;
         this.inputPath = inputPath;
     }
+
+    /**
+     * Method given by the Grabber interface to analyze the video. It saves a list of TimeCoordinate records that
+     * save the specific second, x coordinate and y coordinate of centroid.
+     * 
+     * A frame gets extracted by JavaCV FFmpegFrameGrabber. A loop is set to grab a frame every second of the video.
+     * Each frame will be converted to a BufferedImage for analysis, where it will be binarized and recorded in a list of Groups.
+     * The greatest group will be extracted and saved to TimeCoordinate, if there is nothing then -1, -1 is saved.
+     * 
+     * @return a list of TimeCoordinate records that saves the x and y coordinate over each second of the video
+     */
 
     @Override
     public List<TimeCoordinate> analysis() {
