@@ -3,6 +3,19 @@ import {spawn} from "child_process";
 import path from "path";
 import { randomUUID } from "crypto";
 
+/**
+ * 
+ *  Process vidoes, creating job ids and binarizing the video
+ * 
+ * @param req Express Request
+ * @param res Express Response
+ * @const targetcolor The Inputted targetcolor the process will be searching for
+ * @const threshold How different the colors can be (foundColor vs targetColor)
+ * @const jobId random UUID for each independent process
+ * @const input video we will be processing against
+ * @returns CSV file with values that repersent the threshold between the targetcolor and found colors/values
+ */
+
 export const startProcess = (req, res) => {
     try {
         const {filename} = req.params;
@@ -55,6 +68,18 @@ export const startProcess = (req, res) => {
     }
 }
 // if(!job) return res.status(404).json({error: "Job ID not found"})
+
+/**
+ *  Finds the status of the given job Id above to show status of processing (error, done)
+ * 
+ * @param req Express Request
+ * @param res Express Response
+ * 
+ * Finds current jobid within the jobs folder and processes it to view the status 
+ *  
+ */
+
+
 export const getProcess = (req, res) => {
     try {
         const {jobId} = req.params;
