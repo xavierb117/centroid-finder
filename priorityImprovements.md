@@ -6,7 +6,7 @@
 2. DFSBinaryGroupFinder could be split and use a helper function for more reaadability
 
 ## Adding Tests (required)
-1. Add more server-sided tests, not a lot but just more to conver more server responses for 2 routes
+1. Add more server-sided tests, not a lot but just more to conver more server responses for 2 routes ✅
 2. Look more into DistanceImageBinarizerTest for more tests regarding failure
 3. Change file structure of server tests to be more oriented towards one route ✅
 
