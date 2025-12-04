@@ -23,6 +23,7 @@ if (!process.env.NODE_ENV || process.env.NODE_ENV !== "production") {
 
 const app = express();
 app.use(express.json());
+app.use('/results', express.static('/results'))
 app.use(cors({
   origin: function (origin, callback) {
     const allowed = ["http://localhost:3000", "http://localhost:3001"];
