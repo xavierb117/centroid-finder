@@ -33,7 +33,7 @@ export default function checkStatus() {
                         const archiveDir = process.env.ARCHIVE
                         fs.renameSync(currentFile, path.join(archiveDir, `${jobId}`))
                     }
-                    else if (Date.now() - startTime > 1 * 60 * 1000) { // THIS IS IN MILLISECONDS, MINUTES TIMES 60 TIMES 1000
+                    else if (Date.now() - startTime > 5 * 60 * 1000) { // THIS IS IN MILLISECONDS, MINUTES TIMES 60 TIMES 1000
                         data.status = "error"
                         fs.writeFileSync(currentFile, JSON.stringify(data, null, 2))
 
